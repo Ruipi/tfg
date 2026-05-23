@@ -13,10 +13,16 @@ This file is MODEL-FACING:
 Human-readable decoding utilities should stay inside:
     tile_decoder.py
 """
+import sys
+from pathlib import Path
 
-from features.token_definitions import TileInstance
+project_root = Path.cwd().parent
 
-from utils.tile_decoder import (
+sys.path.append(str(project_root))
+
+from src.features.token_definitions import TileInstance
+
+from src.utils.tile_decoder import (
     tile34_to_string,
 )
 
