@@ -9,17 +9,7 @@ from src.utils.tile_decoder import tile136_to_string
 # ACTION TYPE MAPPING
 # --------------------------------------------------
 
-ACTION_TYPES = {
-    0: "skip",
-    1: "discard",
-    2: "chi",
-    3: "pon",
-    4: "daiminkan",
-    5: "shouminkan",
-    6: "ankan",
-    7: "riichi"
-}
-
+from src.utils.constants import ACTION_TYPES
 
 # --------------------------------------------------
 # SINGLE ACTION DECODER
