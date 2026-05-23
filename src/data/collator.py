@@ -30,6 +30,7 @@ class MahjongCollator:
             "attention_mask": [],
             "action_mask": [],
             "action_indices": [],
+            "target": [],
         }
 
         # ========================================================
@@ -118,19 +119,27 @@ class MahjongCollator:
                 sample["action_indices"]
             )
 
+            batched["target"].append(
+                sample["target"]
+            )
+
         # ========================================================
         # Stack tensors
         # ========================================================
 
         for key in batched:
 
-            if key == "action_indices":
+            if key in ["action_indices", "target"]:
                 continue
 
             batched[key] = torch.stack(
                 batched[key],
                 dim=0,
             )
+
+        batched["target"] = torch.tensor(
+            batched["target"]
+        )
 
         return batched
     
