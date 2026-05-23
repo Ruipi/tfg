@@ -13,6 +13,11 @@ from src.utils.constants import (
     TOKEN_TYPES,
     ACTION_TYPE_IDS,
     MELD_TYPE_IDS,
+
+    PAD_TILE_ID,
+    PAD_COPY_ID,
+    PAD_PLAYER_ID,
+    PAD_ACTION_TYPE_ID,
 )
 
 class Tensorizer:
@@ -54,17 +59,17 @@ class Tensorizer:
 
             positions.append(position)
 
-            # ====================================================
+            # ========================================================
             # DEFAULT VALUES
-            # ====================================================
+            # ========================================================
 
-            tile_ids.append(-1)
+            tile_ids.append(PAD_TILE_ID)
 
-            copy_ids.append(-1)
+            copy_ids.append(PAD_COPY_ID)
 
-            player_ids.append(-1)
+            player_ids.append(PAD_PLAYER_ID)
 
-            action_type_ids.append(-1)
+            action_type_ids.append(PAD_ACTION_TYPE_ID)
 
             action_mask.append(0)
 
