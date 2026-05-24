@@ -48,6 +48,22 @@ def tile136_to_string(tile136: int) -> str:
     return tile34_to_string(tile34)
 
 
+def tiles136_to_34_array(tiles136):
+    """
+    Convert list of 136-tile IDs into
+    34-count array representation.
+    """
+
+    counts = [0] * 34
+
+    for tile in tiles136:
+
+        tile34 = tile136_to_tile34(tile)
+
+        counts[tile34] += 1
+
+    return counts
+
 # --------------------------------------------------
 # HELPERS
 # --------------------------------------------------
