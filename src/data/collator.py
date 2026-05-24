@@ -119,9 +119,11 @@ class MahjongCollator:
                 sample["action_indices"]
             )
 
-            batched["target"].append(
-                sample["target"]
-            )
+            if "target" in sample:
+
+                batched["target"].append(
+                    sample["target"]
+                )
 
         # ========================================================
         # Stack tensors
@@ -137,9 +139,10 @@ class MahjongCollator:
                 dim=0,
             )
 
-        batched["target"] = torch.tensor(
-            batched["target"]
-        )
+        if len(batched["target"]) > 0:
+            batched["target"] = torch.tensor(
+                batched["target"]
+            )
 
         return batched
     
