@@ -1,0 +1,8 @@
+category,proportion
+exact_match,0.6716
+equivalent,0.1149
+near_equivalent,0.0538
+better_ukeire,0.0525
+ukeire_loss,0.0427
+shanten_loss,0.033
+better_shanten,0.0315
