@@ -20,3 +20,36 @@ data/discard/
 # OS
 .DS_Store
 Thumbs.db
+
+# ============================================
+# LaTeX build files
+# ============================================
+
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+
+# Latexmk
+latexmkrc
+
+# Temporary editor files
+*~
+*.swp
+*.swo
+
+# Generated PDFs (optional)
+# Uncomment if you don't want PDFs in git
+# *.pdf

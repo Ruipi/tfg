@@ -1,0 +1,61 @@
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{csquotes}
+%\usepackage[english]{babel}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{hyperref}
+
+ \usepackage[
+ backend=biber,
+ style=ieee
+ ]{biblatex}
+
+ \addbibresource{bibliography.bib}
+
+\title{
+Construcción de una IA de Mahjong mediante Transformers
+}
+
+\author{
+Julia XXXXX
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\clearpage
+
+\input{sections/01_introduccion}
+
+\input{sections/02_objetivos}
+
+\input{sections/03_teoria}
+
+\input{sections/04_estado_arte}
+
+\input{sections/05_herramientas}
+
+\input{sections/06_desarrollo}
+
+\input{sections/07_resultados}
+
+\input{sections/08_conclusiones}
+
+\printbibliography
+
+\end{document}
