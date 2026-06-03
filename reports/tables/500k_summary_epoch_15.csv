@@ -1,0 +1,5 @@
+metric,value
+exact_accuracy,0.6913
+strategic_accuracy,0.9462
+mean_confidence,0.6884640877574683
+mean_ukeire_difference,0.203
