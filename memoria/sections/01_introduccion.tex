@@ -1,0 +1,36 @@
+\chapter{Introducción}
+
+Riichi Mahjong es un juego de inforación imperfecta, 
+caracterizado por una elevada complejidad estratégica e
+información oculta, que llega a $10^{48}$\cite{li2020suphx} posibles siguientes estados.
+Además de eso, también existe un gran caos secuencial, debido a que
+cada jugador tiene la posibilidad de saltar turnos a otros jugadores
+mediante acciones como el \textit{pon}, el \textit{chi} o el \textit{kan}, lo que incrementa aún más la complejidad del juego.
+
+Este proyecto crea una Inteligencia Artificial que selecciona el mejor descarte dado un estado de juego completo,
+donde existe información temporal secuencial y estática. El modelo es basado en la arquitectura de Transformers,
+en la cual se entrena mediante aprendizaje por imitación de 500 mil estados de juego reales
+obtenidos de la plataforma Tenhou.net, siendo estos juegos de alto nivel, con jugadores profesionales y amateurs avanzados.
+
+Durante el desarrollo del proyecto, obtenemos diferentes métricas de precisión,
+analizando la precisión global de imitación, así como la precisión estratégica, que se basa en categorías semánticas propias del juego,
+como \textit{Shanten} y \textit{Ukeire}.
+
+El esquema general de esta memória será empezará con
+los objetivos del preyecto,
+seguido de una sección de teoría, donde se explicará
+el juego de Mahjong y las heurísticas del juego,
+así como la arquitectura de Transformers y el aprendizaje
+por imitación.
+Después, se hará un repaso del estado del arte,
+donde se analizarán los trabajos relacionados con el juego de Mahjong y con el uso de Transformers en juegos de información imperfecta.
+A continuación, se describirán las herramientas utilizadas para el desarrollo del proyecto,
+y se explicará el proceso de desarrollo del proyecto, desde la preparación de los datos hasta el
+entrenamiento del modelo y la evaluación de los resultados.
+Finalmente, se presentarán los resultados obtenidos y se discutirán las conclusiones del proyecto.
+
+Este trabajo se desarrollo utilizando metodología ágil y se documenta de forma detallada cada una de las etapas del proyecto,
+ desde la definición de los objetivos hasta la presentación de 
+ los resultados obtenidos, proporcionando una visión completa del proceso 
+ de construcción de la IA de Mahjong mediante Transformers.
+
