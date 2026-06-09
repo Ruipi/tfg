@@ -3,11 +3,151 @@
 \subsection{Reglas Básicas}
 
 En un juego de Riichi Mahjong, contamos con 4 jugadores
-de los cuales 1 es el Dealer, representado por el viento Este.
+de los cuales 1 es el \textit{Dealer}, representado por el viento \textbf{Este}.
 Cada jugador recibe 13 piezas, que pueden ser de las siguientes:
 
 
-\begin{itemize}
-    \item 0
-    \item 1
-\end{itemize}
+\begin{table}[H]
+\centering
+
+\begin{tabular}{ll}
+
+\toprule
+
+\textbf{Suit} & \textbf{Tiles} \\
+
+\midrule
+
+Manzu (Caracteres)
+&
+\mahjong{123456789m}
+\\[0.5em]
+
+Pinzu (Circulos)
+&
+\mahjong{123456789p}
+\\[0.5em]
+
+Souzu (Bambús)
+&
+\mahjong{123456789s}
+\\[0.5em]
+
+Honores (Vientos y Dragones)
+&
+\mahjong{1234567z}
+\\
+
+\bottomrule
+
+\end{tabular}
+
+\caption{
+Categorias de piezas de Riichi Mahjong
+}
+
+\label{tab:mahjong_tiles}
+
+\end{table}
+
+Las piezas de caracteres, circulos y bambús se numeran del 1 al 9, y las piezas de honores son, respectivamente, \textbf{Este}, \textbf{Sur}, \textbf{Oeste} y \textbf{Norte} para los vientos; y \textbf{Dragon Rojo}, \textbf{Dragon Verde} y \textbf{Dragon Blanco}. Cada una de estas piezas tienen 4 copias, por lo que en total son 136 piezas.
+
+Inicialmente se decide si el juego durará una ronda de mesa \textbf{Este} o una ronda hasta \textbf{Sur}, donde la mesa obtiene ese viento, y aleatoriamente se escoge una persona para ser el \textit{Dealer}, que estará representado por la pieza del \textbf{Este} y se sentará en esa posición. Cada posición de jugadores está en un viento, como podemos ver en la siguiente imágen:
+
+\begin{figure}[H]
+\centering
+
+\begin{tikzpicture}[scale=1.5]
+
+% Mesa
+\draw[thick] (-2,-2) rectangle (2,2);
+
+% Centro
+\node at (0,0) {\Large Mesa};
+
+% Vientos
+\node at (0,2.8) {\mahjong{4z}};
+\node at (0,2.4) {Norte};
+
+\node at (2.8,0) {\mahjong{1z}};
+\node at (2.8,-0.4) {Este};
+
+\node at (0,-2.6) {\mahjong{2z}};
+\node at (0,-3.0) {Sur};
+
+\node at (-2.8,0) {\mahjong{3z}};
+\node at (-2.8,-0.4) {Oeste};
+
+% Jugadores
+\node at (0,-3.5) {Jugador 1};
+\node at (3.8,0) {Jugador 0};
+\node at (0,3.4) {Jugador 3};
+\node at (-3.8,0) {Jugador 2};
+
+\end{tikzpicture}
+
+\caption{
+Posición relativa de los jugadores y vientos en una mesa de Riichi Mahjong.
+}
+
+\label{fig:winds_table}
+
+\end{figure}
+
+El objetivo del juego es ganar las manos mediante \textit{Yaku} (combinaciones de manos que pueden ganar), de forma similar al poker. Se puede ver en el Anexo 1 una lista de \textit{Yaku} oficiales.
+
+
+Cada jugador recibe 13 piezas, y su turno se basa de forma sencilla, a comprar una pieza y descartar otra, hasta que la mano se complete (si posible). 
+Al momento de completar una mano preparada para ganar, esto es, que falta solo una pieza para ganar (\textit{Tenpai}), el jugador puede ganar cogiendo la pieza de la compra normal, o del descarte de otro jugador. De este modo, los jugadores también deben evitar descartar la pieza que completa la mano de otro jugador, ya que pierde puntos de este modo. En resumen, las formas de ganar son las siguientes:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Forma de Ganar} & \textbf{Descripción} \\
+\hline
+\textbf{Tsumo} & Ganar con la pieza de la compra normal. \\
+\textbf{Ron} & Ganar con la pieza del descarte de otro jugador. \\
+\hline
+\end{tabular}
+\caption{
+Formas de ganar en Riichi Mahjong
+}
+\label{tab:winning-conditions}
+\end{table}
+
+El juego también dispone de una pared de piezas, donde se encuentra la llamada \textbf{Pared Muerta} (\textit{Dead Wall}) que contiene 14 piezas que nunca se verán dentro del juego, estas 14 piezas son escogidas aleaatóriamente al inicio de cada ronda. Además, esta pared muerta contiene lo que llamamos indicadores de \textit{dora}, que son piezas que adicionan puntos a la mano ganadora. El número del indicador revela que la próxima pieza es el \textit{dora}, y por lo tanto vale más puntos. Para los vientos, el orden de dora es Este $\rightarrow$ Sur $\rightarrow$ Oeste $\rightarrow$ Norte $\rightarrow$ Este, y para los dragones es Rojo $\rightarrow$ Verde $\rightarrow$ Blanco $\rightarrow$ Rojo. Para las piezas de caracteres, circulos y bambús, el orden es 1 $\rightarrow$ 2 $\rightarrow$ 3 $\rightarrow$ ... $\rightarrow$ 9 $\rightarrow$ 1.
+
+Durante el juego, un jugador tiene la opción de hacer "llamadas", estas llamadas se resumen a coger el descarte de otro jugador para completar un trio o una secuencia, también se puede utilizar para completar una cuadrupla, que abrirá otro indicador dora, pudiendo aumentar el valor de tu mano o de una mano rival. Sin embargo, hacer llamadas también tiene la contra parte de que tu mano ya no es cerrada, y por lo tanto no podrás declarar \textit{Riichi} como veremos a continuación.
+
+La regla más importante del Riichi Mahjong: hacer \textbf{\textit{Riichi}}: Cuando un jugador está en \textit{Tenpai} y tiene la mano cerrada, tiene la opción de declarar \textit{Riichi}, que nada más es una apuesta de 1000 puntos a que ganará la mano. Esto bloquea la  mano del jugador y solo podrá comprar y descartar piezas sin poder modificar más su mano, siendo la única opción posible hacer \textit{Tsumo} o \textit{Ron}\ref{tab:winning-conditions}.
+
+Por lo tanto, podemos ver en la siguiente tabla un resumen de las acciones posibles en cada turno:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{0.6\textwidth}|}
+\hline
+\textbf{Acción} & \textbf{Descripción} \\
+\hline
+\hline
+Comprar & Tomar una pieza de la pared. \\
+\hline
+Descartar & Descartar una pieza de la mano. \\
+\hline
+Declarar \textit{Riichi} & Apostar 1000 puntos a que ganará la mano. \\
+\hline
+\textit{Pon} & Coger el descarte de otro jugador para completar un trio. \\
+\hline
+\textit{Chi} & Coger el descarte de otro jugador para completar una secuencia. \\
+\hline
+\textit{Kan} & Completar una cuadrupla (puede ser de tu mano sin abrir). \\
+\hline
+\end{tabular}
+\caption{
+Acciones posibles en cada turno de Riichi Mahjong
+}
+\label{tab:actions}
+\end{table}
+
+Con esto finalizamos la explicación de las reglas básicas del juego, y a continuación se explicarán los conceptos de estrategia y teoría que se utilizan para jugar el juego de forma óptima.
