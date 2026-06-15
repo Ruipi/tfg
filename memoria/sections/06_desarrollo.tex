@@ -1,0 +1,91 @@
+\section{Desarrollo del Proyecto}
+
+En esta sección explicaremos como ha sido desarrollado el proyecto, empezando por el Análisis de Exploración de Datos (EDA); el planteamiento de la arquitectura, donde se verán las decisiones tomadas para la construcción del modelo; la construcción del modelo; y las iteraciones de desarrollo.
+
+\subsection{Análisis de Exploración de Datos}
+
+A partir del Dataset de Kaggle 4-players Riichi Mahjong Dataset se creó un notebook donde se explora todos los \textit{schemas} del dataset.
+
+El dataset es compuesto por 7 \textit{schemas}:
+
+\begin{table}[H]
+  \centering
+  \caption{Schemas del Dataset}
+  \label{tab:schemas}
+  \begin{tabular}{@{}cll@{}}
+    \toprule
+    \textbf{ID} & \textbf{Nombre} & \textbf{Descripción} \\
+    \midrule
+    0 & Skip        & No realizar ninguna acción; pasar el turno. \\
+    1 & Discard     & Descartar una ficha de la mano. \\
+    2 & Chi         & Robar la ficha descartada por el jugador anterior para formar una secuencia. \\
+    3 & Pon         & Robar la ficha descartada por cualquier jugador para formar un trío. \\
+    4 & DaiMinKan   & Robar la ficha descartada por cualquier jugador para formar un cuádruple abierto. \\
+    5 & ShouMinKan  & Añadir una ficha propia a un trío abierto (Pon) para formar un cuádruple. \\
+    6 & AnKan       & Declarar un cuádruple cerrado con cuatro fichas de la propia mano. \\
+    7 & Riichi      & Declarar \textit{Tenpai} con la mano cerrada, apostando 1000 puntos. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Y a partir de ellos, se analizaron los siguientes datos.
+
+\subsection{Distribución de Acciones}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/distribucion_acciones.png}
+  \caption{Distribución de Acciones Válidas}
+  \label{fig:dist_acciones_validas}
+\end{figure}
+
+En este gráfico podemos observar un desbalance de acciones, no obstante, se observó que este desbalance es fiel a la realidad, ya que en juegos de alto nivel la cantidad de acciones que abren la mano muy raramente ocurre, y la cantidad de Kan, además de ser baja porque las probabilidades de conseguir las 4 copias de una ficha en el juego es baja, también es un movimiento de mucho riesgo, por lo que eso eplica las pocas ocurrencias en la distribución. En conclusión, apesar de este desbalance que se tendrá que llevar en cuenta para los modelos a parte del descarte, en general es correcto que el modelo se entrene sobre estas cantidades inicialmente. Sin embargo, nuestro modelo actualmente solo está entrenado sobre la acción de Descartes, siendo las otras acciones una implementación futura.
+
+\subsection{Distribución de la Suma de Acciones Válidas de una Sample}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/acciones_validas_dist.png}
+  \caption{Distribución del número de acciones válidas del schema de Descarte}
+  \label{fig:discard_valid_count}
+\end{figure}
+
+Observamos que la mayor concentración ocurre en 14 acciones validas, esto ocurre debido a que en la mayor parte del tiempo, el jugador debe descartar una  pieza de 14. Luego, aparecen picos en 11, 8 y 5 acciones válidas; esto corresponde naturalmenete a estados de manos abiertas, como podemos ver en la siguiente tabla:
+
+\begin{table}[H]
+  \centering
+  \caption{Acciones válidas según melds abiertos}
+  \label{tab:acciones_melds}
+  \begin{tabular}{@{}cc@{}}
+    \toprule
+    \textbf{Acciones válidas} & \textbf{\textit{Melds} abiertos} \\
+    \midrule
+    11 & 1 \\
+    8  & 2 \\
+    5  & 3 \\
+    2  & 4 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+El 2 obtiene un número bajo debido a que jugadores de alto nivel no suelen abrir la mano hasta que resten 2 piezas de acciones posibles, ya que se busca maximizar las acciones hasta llegar a \textit{Tenpai}.
+
+Además de esto, vemos un alto número sonde solamente existe 1 acción válida. Esto se explica con \textit{Riichi}, ya qie el \textit{Riichi} bloquea la mano del jugador, permitiendo apenas descartar la pieza comprada o ganar con ella. En función de esto, consideramos limpiar el dataset de estos casos, ya que introduce mucho ruido al modelo, considerando que el jugador ya no tiene autonomia a partir del momento en que hace \textit{Riichi}.
+
+Finalmente, el número de acciones válidas restante se explica debido a posibles acciones de \textit{Riichi} con diferentes piezas. 
+
+\subsection{Frecuencia de Piezas Descartadas}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{figures/mostcommondiscarded.png}
+  \caption{Frecuencia de las Piezas Descartadas}
+  \label{fig:common_discarded}
+\end{figure}
+
+En este gráfico podemos ver que las piezas con mayor frecuencia de dedscarte son los Honores (Vientos y Dragones), 
+ver Tabla \ref{tab:mahjong_tiles}, y las piezas terminales (unos y nueves), esto se debe a que estas piezas disminuyen el \textit{Ukeire}, ver \ref{seubsec:ukeire} Ukeire.
+
+\section{Arquitectura del Modelo}
+
+La Arquitectura del modelo se planteó 

@@ -98,12 +98,12 @@ Posición relativa de los jugadores y vientos en una mesa de Riichi Mahjong.
 
 En el caso de que el ganador del juego sea el Este/Dealer, la partida seguirá en el mismo estagio de ronda, por ejemplo, si estamos en el Este 3 y gana el Dealer, se hace más una ronda de Este 3.
 
-El objetivo del juego es ganar las manos mediante \textit{Yaku} (combinaciones de manos que pueden ganar compuestas de 4 \textit{Melds} y un par), de forma similar al poker. Se puede ver en el Anexo 1 una lista de \textit{Yaku} oficiales.
+El objetivo del juego es ganar las manos mediante \label{txt:Yaku} \textit{Yaku} (combinaciones de manos que pueden ganar compuestas de 4 \textit{Melds} y un par), de forma similar al poker. Se puede ver en el Anexo 1 una lista de \textit{Yaku} oficiales.
 
 
 Cada jugador recibe 13 piezas, y su turno se basa de forma sencilla, en comprar una pieza y descartar otra, hasta que la mano se complete (si posible).
 
-En general, una mano se caracteriza por 4 \textit{Melds} caracterizados por 3 piezas que pueden ser un trio o una secuencia y además de esos 4 \textit{Melds}, un par.
+En general, una mano se caracteriza por 4 \textit{Melds}  \label{txt:melds} caracterizados por 3 piezas que pueden ser un trio o una secuencia y además de esos 4 \textit{Melds}, un par.
 
 Al momento de completar una mano preparada para ganar (\textit{Tenpai}), el jugador puede ganar cogiendo la pieza de la compra normal, o del descarte de otro jugador. De este modo, los jugadores también deben evitar descartar la pieza que completa la mano de otro jugador, ya que pierde puntos de este modo. En resumen, las formas de ganar son las siguientes:
 
@@ -164,6 +164,7 @@ Con esto finalizamos la explicación de las reglas básicas del juego, y a conti
 \subsection{Heurísticas}
 
 \subsubsection{Ukeire}
+\label{seubsec:ukeire}
 
 El \textit{Ukeire} nada más es que el número de piezas aceptables en cada turno para mejorar tu meld, por ejemplo, para completar un \textbf{Meld} con las dos piezas \mahjong{3p} \mahjong{5p}, se pueden aceptar las siguientes piezas:
 
@@ -174,7 +175,7 @@ El \textit{Ukeire} nada más es que el número de piezas aceptables en cada turn
 si ninguna de estas piezas han salido en el juego, entonces tenemos un \textit{Ukeire} de $4+3+4+3+4 = 18$.
 
 \subsubsection{Shanten}
-
+\label{seubsec:shanten}
 El \textit{Shanten} se define por el número de turnos que hace mejorar la mano para llegar a \textit{Tenpai}. Un \textit{Shanten} de $0$ indica que la mano está en \textit{Tenpai} (falta solo una pieza para ganar), igualmente, una mano en 1-\textit{Shanten} indica que falta una pieza para llegar a \textit{Tenpai} y así por delante.
 
 

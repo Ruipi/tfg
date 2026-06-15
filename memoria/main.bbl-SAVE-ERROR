@@ -1,0 +1,171 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{chiba2015riichi}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e446d49d2573da550ae177378fa86ed7}{%
+           family={Chiba},
+           familyi={C\bibinitperiod},
+           given={Daina},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Lulu.com}%
+      }
+      \strng{namehash}{e446d49d2573da550ae177378fa86ed7}
+      \strng{fullhash}{e446d49d2573da550ae177378fa86ed7}
+      \strng{fullhashraw}{e446d49d2573da550ae177378fa86ed7}
+      \strng{bibnamehash}{e446d49d2573da550ae177378fa86ed7}
+      \strng{authorbibnamehash}{e446d49d2573da550ae177378fa86ed7}
+      \strng{authornamehash}{e446d49d2573da550ae177378fa86ed7}
+      \strng{authorfullhash}{e446d49d2573da550ae177378fa86ed7}
+      \strng{authorfullhashraw}{e446d49d2573da550ae177378fa86ed7}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-1329626478}
+      \field{title}{Riichi Book 1: The Ultimate Guide to the Japanese Game Taking the World by Storm}
+      \field{year}{2015}
+    \endentry
+    \entry{riichiWikiRulesOverview}{online}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=92892bfbf41a98db70a9e890b646c0ae}{%
+           family={{Japanese Mahjong Wiki}},
+           familyi={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{92892bfbf41a98db70a9e890b646c0ae}
+      \strng{fullhash}{92892bfbf41a98db70a9e890b646c0ae}
+      \strng{fullhashraw}{92892bfbf41a98db70a9e890b646c0ae}
+      \strng{bibnamehash}{92892bfbf41a98db70a9e890b646c0ae}
+      \strng{authorbibnamehash}{92892bfbf41a98db70a9e890b646c0ae}
+      \strng{authornamehash}{92892bfbf41a98db70a9e890b646c0ae}
+      \strng{authorfullhash}{92892bfbf41a98db70a9e890b646c0ae}
+      \strng{authorfullhashraw}{92892bfbf41a98db70a9e890b646c0ae}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{Rules overview}}
+      \field{urlday}{9}
+      \field{urlmonth}{6}
+      \field{urlyear}{2026}
+      \field{year}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://riichi.wiki/Rules_overview
+      \endverb
+      \verb{url}
+      \verb https://riichi.wiki/Rules_overview
+      \endverb
+    \endentry
+    \entry{li2020suphx}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=1,uniquepart=given,hash=cc7c788df3d7d1badcb714ffa61f1c47}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Junquan},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=6af9bbc02b87161e17edc480fc00feb1}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Quanming},
+           giveni={Q\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=c352dd59dbc8c74641f118e6d571471f}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Xucheng},
+           giveni={X\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=f0da320d618c96e08c60526c74dd9e59}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Liwei},
+           giveni={L\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=49a19e08791a3dc09c932ff975949361}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Jing},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=1,uniquepart=given,hash=79c353f5d45457144086442ebf9cd7fe}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Rong},
+           giveni={R\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=a6a16df064385d0ff8aa062ba67f5787}{%
+           family={Luo},
+           familyi={L\bibinitperiod},
+           given={Sichuan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b7c083cd88ad385d770eef8158c4104d}{%
+           family={Si},
+           familyi={S\bibinitperiod},
+           given={Luo},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dbcdb32ac2f80a8877a0fa07f9af5383}{%
+           family={Peng},
+           familyi={P\bibinitperiod},
+           given={Fei},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=84cf4b6abb6a868ac876d832b6c75bf7}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={Jinhua},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{fabc0b0b3ff02703c8f34d4b63697478}
+      \strng{fullhash}{61b587f3be71a6507d5f7aa684972e23}
+      \strng{fullhashraw}{61b587f3be71a6507d5f7aa684972e23}
+      \strng{bibnamehash}{fabc0b0b3ff02703c8f34d4b63697478}
+      \strng{authorbibnamehash}{fabc0b0b3ff02703c8f34d4b63697478}
+      \strng{authornamehash}{fabc0b0b3ff02703c8f34d4b63697478}
+      \strng{authorfullhash}{61b587f3be71a6507d5f7aa684972e23}
+      \strng{authorfullhashraw}{61b587f3be71a6507d5f7aa684972e23}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2003.13590}
+      \field{title}{Suphx: Mastering Mahjong with Deep Reinforcement Learning}
+      \field{year}{2020}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
