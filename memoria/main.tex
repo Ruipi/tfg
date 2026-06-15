@@ -1,29 +1,72 @@
-\documentclass[12pt,a4paper]{report}
+\documentclass[12pt,a4paper]{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+% ======================
+% Fonts (XeLaTeX only)
+% ======================
+\usepackage{fontspec}
+% ======================
+% Page layout
+% ======================
+\usepackage[
+  a4paper,
+  top=2.5cm,
+  bottom=2.5cm,
+  left=3cm,
+  right=2.5cm,
+  headheight=15pt
+]{geometry}
 
-\usepackage{csquotes}
-%\usepackage[english]{babel}
+\usepackage{enumitem}
+% ======================
+% Line breaking
+% ======================
+\usepackage{microtype}      % better justification, reduces hbox warnings
+\usepackage{xurl}           % allows URLs to break anywhere
+\sloppy                     % relaxes line-breaking strictness globally
 
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{booktabs}
+\setmainfont{TeX Gyre Termes}   % Times-like academic font
+\setsansfont{TeX Gyre Heros}
 
-\usepackage{amsmath}
-\usepackage{amssymb}
+% Japanese font (important!)
+\newfontfamily\japanesefont{Noto Serif CJK JP}
 
-\usepackage{hyperref}
+% ======================
+% Languages
+% ======================
+\usepackage{polyglossia}
+
+\setdefaultlanguage{spanish}
+\setotherlanguage{english}
+
+% ======================
+% Bibliography
+% ======================
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  sorting=nyt
+]{biblatex}
+
+\addbibresource{bibliography.bib}
 
 \usepackage{mahjong}
-
 \usepackage{tikz}
- \usepackage[
- backend=biber,
- style=ieee
- ]{biblatex}
+% ======================
+% Tables & Figures
+% ======================
+\usepackage{graphicx}       % \includegraphics
+\usepackage{float}          % [H] float placement
+\usepackage{booktabs}       % \toprule, \midrule, \bottomrule
+\usepackage{caption}        % better captions
+\usepackage{subcaption}     % subfigures
 
- \addbibresource{bibliography.bib}
+% ======================
+% Misc
+% ======================
+\usepackage{hyperref}       % clickable links/refs
+\usepackage{xcolor}         % colors
+\usepackage{microtype}      % better justification
+
 
 \title{
 Construcción de una IA de Mahjong mediante Transformers
@@ -81,6 +124,12 @@ Julia Ruiperez de Brito
 
 \input{sections/08_conclusiones}
 
+\clearpage
+\input{sections/appendix_glossario}
+
+\clearpage
+
+\printbibliography
 \printbibliography
 
 \end{document}

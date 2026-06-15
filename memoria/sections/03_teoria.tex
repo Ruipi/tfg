@@ -1,5 +1,7 @@
 \section{Conceptos Teóricos}
 
+En esta sección trataremos los  conceptos teóricos a empezar por las reglas básicas \cite{riichiWikiRulesOverview} y heurísticas \cite{chiba2015riichi} de Riichi Mahjong, el objeto de este proyecto. Luego, pasaremos a la teoría de IA, aprendizaje por imitación y la arquitectura de \textit{Transformers}. 
+
 \subsection{Reglas Básicas}
 
 En un juego de Riichi Mahjong, contamos con 4 jugadores
@@ -50,9 +52,9 @@ Categorias de piezas de Riichi Mahjong
 
 \end{table}
 
-Las piezas de caracteres, circulos y bambús se numeran del 1 al 9, y las piezas de honores son, respectivamente, \textbf{Este}, \textbf{Sur}, \textbf{Oeste} y \textbf{Norte} para los vientos; y \textbf{Dragon Rojo}, \textbf{Dragon Verde} y \textbf{Dragon Blanco}. Cada una de estas piezas tienen 4 copias, por lo que en total son 136 piezas.
+Las piezas de caracteres, circulos y bambús se numeran del 1 al 9, y las piezas de honores son, respectivamente, \textbf{Este}, \textbf{Sur}, \textbf{Oeste} y \textbf{Norte}; y \textbf{Dragon Blanco}, \textbf{Dragon Verde} y \textbf{Dragon Rojo}. Cada una de estas piezas tienen 4 copias, por lo que en total son 136 piezas.
 
-Inicialmente se decide si el juego durará una ronda de mesa \textbf{Este} o una ronda hasta \textbf{Sur}, donde la mesa obtiene ese viento, y aleatoriamente se escoge una persona para ser el \textit{Dealer}, que estará representado por la pieza del \textbf{Este} y se sentará en esa posición. Cada posición de jugadores está en un viento, como podemos ver en la siguiente imágen:
+Inicialmente se decide si el juego durará una ronda de mesa \textbf{Este} o una ronda hasta \textbf{Sur}, cada ronda de \textbf{Este} o de \textbf{Sur} tiene 4 juegos, donde la mesa obtiene ese viento, y aleatoriamente se escoge una persona para ser el \textit{Dealer}, que estará representado por la pieza del \textbf{Este} y se sentará en esa posición. Cada posición de jugadores está en un viento, como podemos ver en la siguiente imágen:
 
 \begin{figure}[H]
 \centering
@@ -94,14 +96,16 @@ Posición relativa de los jugadores y vientos en una mesa de Riichi Mahjong.
 
 \end{figure}
 
-El objetivo del juego es ganar las manos mediante \textit{Yaku} (combinaciones de manos que pueden ganar), de forma similar al poker. Se puede ver en el Anexo 1 una lista de \textit{Yaku} oficiales.
+En el caso de que el ganador del juego sea el Este/Dealer, la partida seguirá en el mismo estagio de ronda, por ejemplo, si estamos en el Este 3 y gana el Dealer, se hace más una ronda de Este 3.
+
+El objetivo del juego es ganar las manos mediante \textit{Yaku} (combinaciones de manos que pueden ganar compuestas de 4 \textit{Melds} y un par), de forma similar al poker. Se puede ver en el Anexo 1 una lista de \textit{Yaku} oficiales.
 
 
-Cada jugador recibe 13 piezas, y su turno se basa de forma sencilla, a comprar una pieza y descartar otra, hasta que la mano se complete (si posible).
+Cada jugador recibe 13 piezas, y su turno se basa de forma sencilla, en comprar una pieza y descartar otra, hasta que la mano se complete (si posible).
 
-En general, una mano se caracteriza por 4 \textit{Melds} (3 piezas que pueden completar un trio o una secuencia) y un par.
+En general, una mano se caracteriza por 4 \textit{Melds} caracterizados por 3 piezas que pueden ser un trio o una secuencia y además de esos 4 \textit{Melds}, un par.
 
-Al momento de completar una mano preparada para ganar, esto es, que falta solo una pieza para ganar (\textit{Tenpai}), el jugador puede ganar cogiendo la pieza de la compra normal, o del descarte de otro jugador. De este modo, los jugadores también deben evitar descartar la pieza que completa la mano de otro jugador, ya que pierde puntos de este modo. En resumen, las formas de ganar son las siguientes:
+Al momento de completar una mano preparada para ganar (\textit{Tenpai}), el jugador puede ganar cogiendo la pieza de la compra normal, o del descarte de otro jugador. De este modo, los jugadores también deben evitar descartar la pieza que completa la mano de otro jugador, ya que pierde puntos de este modo. En resumen, las formas de ganar son las siguientes:
 
 \begin{table}[H]
 \centering
@@ -119,11 +123,11 @@ Formas de ganar en Riichi Mahjong
 \label{tab:winning-conditions}
 \end{table}
 
-El juego también dispone de una pared de piezas, donde se encuentra la llamada \textbf{Pared Muerta} (\textit{Dead Wall}) que contiene 14 piezas que nunca se verán dentro del juego, estas 14 piezas son escogidas aleaatóriamente al inicio de cada ronda. Además, esta pared muerta contiene lo que llamamos indicadores de \textit{dora}, que son piezas que adicionan puntos a la mano ganadora. El número del indicador revela que la próxima pieza es el \textit{dora}, y por lo tanto vale más puntos. Para los vientos, el orden de dora es Este $\rightarrow$ Sur $\rightarrow$ Oeste $\rightarrow$ Norte $\rightarrow$ Este, y para los dragones es Rojo $\rightarrow$ Verde $\rightarrow$ Blanco $\rightarrow$ Rojo. Para las piezas de caracteres, circulos y bambús, el orden es 1 $\rightarrow$ 2 $\rightarrow$ 3 $\rightarrow$ ... $\rightarrow$ 9 $\rightarrow$ 1.
+El juego también dispone de una pared de piezas, donde se encuentra la llamada \textbf{Pared Muerta} (\textit{Dead Wall}) que contiene 14 piezas que nunca se verán dentro del juego, estas 14 piezas son escogidas aleaatóriamente al inicio de cada ronda. Además, esta pared muerta contiene lo que llamamos indicadores de \textit{dora}, que son piezas que indican que la siguiente pieza de la secuencia adiciona puntos a la mano ganadora. Para los vientos, el orden de secuencia para indicar el \textit{dora} es Este $\rightarrow$ Sur $\rightarrow$ Oeste $\rightarrow$ Norte $\rightarrow$ Este, y para los dragones es Rojo $\rightarrow$ Verde $\rightarrow$ Blanco $\rightarrow$ Rojo. Para las piezas de caracteres, circulos y bambús, el orden es 1 $\rightarrow$ 2 $\rightarrow$ 3 $\rightarrow$ ... $\rightarrow$ 9 $\rightarrow$ 1.
 
-Durante el juego, un jugador tiene la opción de hacer "llamadas", estas llamadas se resumen a coger el descarte de otro jugador para completar un trio o una secuencia, también se puede llamar para completar una cuadrupla, que abrirá otro indicador dora, pudiendo aumentar el valor de tu mano o de una mano rival. Sin embargo, hacer llamadas también tiene la contra parte de que tu mano ya no es cerrada, y por lo tanto no podrás declarar \textit{Riichi} como veremos a continuación, una excepción es hacer un \textit{Kan} cerrado, esto es, completar una cuadrupla con piezas de tu mano sin haberlas descartado y sin llamar a una pieza del descarte de otro jugador, este movimiento abre las 4 piezas para que los otros jugadores las vean, no obstante, si no se coge del descarte de otro jugador, tu mano sigue cerrada, teniendo la posibilidad aún de hacer \textit{Riichi}.
+Durante el juego, un jugador tiene la opción de hacer "llamadas", estas llamadas se resumen a coger el descarte de otro jugador para completar un trio o una secuencia (uno de los \textit{Melds}), abriendo tu mano y bloqueando las piezas que forman el \textit{Meld} llamado, también se puede llamar para completar una cuadrupla, que abrirá otro indicador \textit{dora}, pudiendo aumentar el valor de tu mano o de una mano rival. Sin embargo, hacer llamadas también tiene la contra parte de que tu mano ya no es cerrada, y por lo tanto no podrás declarar \textit{Riichi} como veremos a continuación, una excepción es hacer un \textit{Kan} (cuadrupla) cerrado, esto es, completar una cuadrupla con piezas de tu mano sin haberlas descartado y sin llamar a una pieza del descarte de otro jugador, este movimiento abre las 4 piezas para que los otros jugadores las vean, no obstante, si no se coge del descarte de otro jugador, tu mano sigue cerrada, teniendo la posibilidad aún de hacer \textit{Riichi}.
 
-La regla más importante del Riichi Mahjong: hacer \textbf{\textit{Riichi}}: Cuando un jugador está en \textit{Tenpai} y tiene la mano cerrada, tiene la opción de declarar \textit{Riichi}, que nada más es una apuesta de 1000 puntos a que ganará la mano. Esto bloquea la  mano del jugador y solo podrá comprar y descartar piezas sin poder modificar más su mano, siendo la única opción posible hacer \textit{Tsumo} o \textit{Ron}\ref{tab:winning-conditions}.
+La regla más importante del Riichi Mahjong: hacer \textbf{\textit{Riichi}}: Cuando un jugador está en \textit{Tenpai} y tiene la mano cerrada, tiene la opción de declarar \textit{Riichi}, una apuesta de 1000 puntos a que ganará la mano. Esto bloquea la  mano del jugador y solo podrá comprar y descartar piezas sin poder modificar más su mano, siendo la única opción posible hacer \textit{Tsumo} o \textit{Ron}\ref{tab:winning-conditions}.
 
 Por lo tanto, podemos ver en la siguiente tabla un resumen de las acciones posibles en cada turno:
 
@@ -161,7 +165,7 @@ Con esto finalizamos la explicación de las reglas básicas del juego, y a conti
 
 \subsubsection{Ukeire}
 
-El \textit{Ukeire} nada más es que el número de piezas aceptables en cada turno para mejorar tu meld, por ejemplo, para completar un \text{Meld} con las dos piezas \mahjong{3p} \mahjong{5p}, se pueden aceptar las siguientes piezas:
+El \textit{Ukeire} nada más es que el número de piezas aceptables en cada turno para mejorar tu meld, por ejemplo, para completar un \textbf{Meld} con las dos piezas \mahjong{3p} \mahjong{5p}, se pueden aceptar las siguientes piezas:
 
 \begin{center}
     \mahjong{2p} \mahjong{3p} \mahjong{4p} \mahjong{5p} \mahjong{6p}
@@ -172,3 +176,5 @@ si ninguna de estas piezas han salido en el juego, entonces tenemos un \textit{U
 \subsubsection{Shanten}
 
 El \textit{Shanten} se define por el número de turnos que hace mejorar la mano para llegar a \textit{Tenpai}. Un \textit{Shanten} de $0$ indica que la mano está en \textit{Tenpai} (falta solo una pieza para ganar), igualmente, una mano en 1-\textit{Shanten} indica que falta una pieza para llegar a \textit{Tenpai} y así por delante.
+
+
