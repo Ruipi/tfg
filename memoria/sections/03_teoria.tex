@@ -179,3 +179,38 @@ si ninguna de estas piezas han salido en el juego, entonces tenemos un \textit{U
 El \textit{Shanten} se define por el número de turnos que hace mejorar la mano para llegar a \textit{Tenpai}. Un \textit{Shanten} de $0$ indica que la mano está en \textit{Tenpai} (falta solo una pieza para ganar), igualmente, una mano en 1-\textit{Shanten} indica que falta una pieza para llegar a \textit{Tenpai} y así por delante.
 
 
+\subsection{Transformers}
+
+Un Transformer es una arquitectura de Deep Learning basado en los mecanismos de \textit{multi-head self-attention}\cite{vaswani2017attention}, siendo variaciones amplamente adoptado en la creación de \textit{LLMs (Large Language Models)} como Chat GPT (\textit{Generative Pre-Trained \textbf{Transformer}}).
+
+
+La arquitectura original de un Transformer es la que podemos ver a continuación en la Figura \ref{fig:TransformerArchitecture}, obtenida del Paper \textbf{Attention Is All You Need}\cite{vaswani2017attention}.
+
+
+Normalmente, un Transformer es compuesto por una  estructura de un codificador y un decodificador. El codificador se encarga de mapear una entrada compuesta por una secuencia de símbolos a una secuencia de representaciones continuas. Por su vez, el decodificador se encarga de generar una salida compuesta de otra secuencia de símbolos. El modelo se retroalimenta de cada resultado generado más los anteriores para generar el proximo símbolo.
+
+
+No obstante, un transformer encoder-decoder es computacionalmente intensivo\cite{tam2025encoders}, por lo que existen otras arquitecturas como \textbf{BERT} (\textit{Bidirectional encoder representations from transformers}) que solucionan este problema al crear una arquitectura con solo el codificador\cite{DBLP:journals/corr/abs-1810-04805}, como podemos ver en la figura \ref{fig:BERTvsGPT}, utilizado en casos en el que no es necesário generar una secuencia de tokens y, además, el contexto de los tokens no se importa con unidireccionalidad de la secuencia del texto y permite un ajuste de pesos en la fase de \textit{multi-head self-attention} de forma bidireccional. Esta arquitectura es muy útil para nuestro modelo, ya que la entrada es una serie de \textit{Tokens} de un estado de juego del cual la posicion secuencial no es importante para el significado contextual del estado de juego.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Transformer,_full_architecture.png}
+    \caption{Arquitectura Estándar de un Transformer}
+    \label{fig:TransformerArchitecture}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/BERT_and_GPT2.png}
+    \caption{Arquiectura BERT (izquierda) vs Arquitectura GPT}
+    \label{fig:BERTvsGPT}
+\end{figure}
+
+
+\subsection{Aprendizaje por Imitación}
+
+El aprendizaje por imitación es un tipo de aprendizaje para máquinas que se basa en copiar comportamientos humanos a partir de una cantidad de datos suficientemente grande que permita a la máquina extraer los patrones de la tarea\cite{hussein2017imitation}.
+
+
+Este tipo de aprendizaje es muy comunmente utilizado para que la máquina aprenda a jugar, debido a que se pueden conseguir muchos datos de estados de juego que permiten que una máqina consiga extraer as informaciones como reglas del juego, estrátegia, decisiones estilisticas, etc.
