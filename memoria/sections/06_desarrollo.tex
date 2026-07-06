@@ -135,8 +135,83 @@ Esta es la representación de un estado de mahjong dentro del Dataset:
 }
 \end{lstlisting}
 
+Donde podemos obtener las siguientes informaciones:
 
+\begin{table}[H]
+  \centering
+  \caption{Campos de un Estado de Mahjong}
+  \label{tab:state_fields}
+  \begin{tabular}{@{}clp{8cm}@{}}
+    \toprule
+    \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
+    \midrule
+    round\_wind & int & Viento de la ronda (0-3) \\
+    num\_honba & int & Número de honba (0-4) \\
+    num\_riichi & int & Número de riichi's (0-3) \\
+    player\_wind & int & Viento del jugador (0-3) \\
+    position & int & Posición del jugador (0-3) \\
+    remain\_tiles & int & Número de fichas restantes en el muro (0-70) \\
+    dora\_indicators & list[int] & Lista de indicadores de dora (0-33) \\
+    hand\_tiles & list[int] & Lista de fichas en la mano del jugador (0-33) \\
+    players & dict[int, dict] & Información de los jugadores, incluyendo puntos, riichi, descartes, melds y tsumo\_giri. \\
+    valid\_actions & list[dict] & Lista de acciones válidas para el jugador actual. \\
+    action\_idx & int & Índice de la acción tomada por el jugador actual. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
+De estos datos, podemos aún extraer los campos de players:
+
+\begin{table}[H]
+  \centering
+  \caption{Campos de un Jugador en un Estado de Mahjong}
+  \label{tab:player_fields}
+  \begin{tabular}{@{}clp{8cm}@{}}
+    \toprule
+    \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
+    \midrule
+    points & int & Puntos del jugador (0-50000) \\
+    riichi & bool & Indica si el jugador ha declarado riichi (True/False) \\
+    discards & list[int] & Lista de fichas descartadas por el jugador (0-33) \\
+    melds & list[dict] & Lista de melds del jugador, cada uno con tipo, fichas y quién contribuyó. \\
+    tsumo\_giri & list[int] & Lista indicando si cada ficha fue descartada inmediatamente después de ser robada (1) o no (0). \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Campos de melds:
+
+\begin{table}[H]
+  \centering
+  \caption{Campos de un Meld en un Estado de Mahjong}
+  \label{tab:meld_fields}
+  \begin{tabular}{@{}clp{8cm}@{}}
+    \toprule
+    \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
+    \midrule
+    type & int & Tipo de meld (2: Pon, 3: Chii, 4: DaiMinKan, 5: ShouMinKan, 6: AnKan) \\
+    tiles & list[int] & Lista de fichas que componen el meld (0-33) \\
+    who & list[int] & Lista indicando quién contribuyó a cada ficha del meld (-1 para fichas propias, 0-3 para otros jugadores) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Y, por fin, campos de valid\_actions:
+
+\begin{table}[H]
+  \centering
+  \caption{Campos de una Acción Válida en un Estado de Mahjong}
+  \label{tab:valid_action_fields}
+  \begin{tabular}{@{}clp{8cm}@{}}
+    \toprule
+    \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
+    \midrule
+    type & int & Tipo de acción (0: Skip, 1: Discard, 2: Chi, 3: Pon, 4: DaiMinKan, 5: ShouMinKan, 6: AnKan, 7: Riichi) \\
+    tiles & list[int] & Lista de fichas involucradas en la acción (0-33) \\
+    who & list[int] & Lista indicando quién realiza la acción y quién contribuye a ella (-1 para el jugador actual, 0-3 para otros jugadores) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 
 \section{Arquitectura del Modelo}
@@ -154,6 +229,7 @@ A continuación, podemos ver como funciona la Aquitectura del modelo de este pro
   \label{fig:myarch}
 \end{figure}
 
+Esta es una arquitectura simple de un Transformer Encoder, el input es un estado de Mahjong como vimos anteriormente, este estado pasa por la tokenización, donde cada categoría de información del estado se convierte en un token semántico, y cada token es representado por un embedding vectorial. Luego, estos embeddings son procesados por el Transformer Encoder, que captura las relaciones entre los tokens y genera una representación contextualizada del estado. Finalmente, la salida del Transformer se pasa a través de una capa de clasificación para predecir la acción de descarte más adecuada.
 
 \subsection{Tokenization}
 
@@ -205,4 +281,48 @@ Piezas de la mano representarán la identidad de la pieza, una distinccion de du
   \end{tabular}
   \caption{Campos de Token de Mano}
   \label{tab:hand_token}
+\end{table}
+
+\subsubsection{Tokens de Descarte}
+
+Los tokens de descarte represetan eventos de descartes que son públicos y ordenados, los campos de un token de descarte son los siguientes:
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+  \hline
+  \textbf{Campo} & \textbf{Objetivo}         \\ \hline
+  token\_type    & indetifica el token DISCARD    \\ \hline
+  player & jugador que ha descartado la pieza \\ \hline
+  tile\_type     & pieza de Mahjong    \\ \hline
+  copy\_index    & diferencia copias de piezas \\ \hline
+  is\_red        & soporte de dora rojo        \\ \hline
+  is\_tsumogiri & si la pieza descartada fué una pieza imediatamente comprada \\ \hline
+  is\_riichi\_declaration & si al descartar esa pieza se declara riichi \\ \hline
+  global\_order & orden cronologico del descarte en la ronda \\ \hline
+  player\_discard\_order & index de descarte para el jugador \\ \hline
+  \end{tabular}
+  \caption{Campos de Token de Descarte}
+  \label{tab:discard_token}
+\end{table}
+
+
+\subsubsection{Tokens de Melds}
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Campo}  & \textbf{Objetivo}                            \\ \hline
+token\_type     & identifica el token MELD                    \\ \hline
+player          & jugador que posee el meld                   \\ \hline
+meld\_type      & chii / pon / kan                            \\ \hline
+tile\_types     & piezas que componen el meld                 \\ \hline
+copy\_indices   & distinccion de duplicados                   \\ \hline
+red\_flags      & soporte de dora rojo                        \\ \hline
+source\_players & jugadores que contribuyeron para cada pieza \\ \hline
+global\_order   & orden cronoologica de llamada               \\ \hline
+\end{tabular}
+\caption{Campos de Token de Melds}
+\label{tab:melds_token}
 \end{table}

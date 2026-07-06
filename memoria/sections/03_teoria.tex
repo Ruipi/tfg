@@ -163,6 +163,8 @@ Con esto finalizamos la explicación de las reglas básicas del juego, y a conti
 
 \subsection{Heurísticas}
 
+En esta subsección se definirá dos heurísticas importantes del Mahjong, el \textit{Ukeire} y el \textit{Shanten}, que serán utilizados más aadelante como métricas de evaluación del modelo.
+
 \subsubsection{Ukeire}
 \label{seubsec:ukeire}
 
@@ -172,11 +174,11 @@ El \textit{Ukeire} nada más es que el número de piezas aceptables en cada turn
     \mahjong{2p} \mahjong{3p} \mahjong{4p} \mahjong{5p} \mahjong{6p}
 \end{center}
 
-si ninguna de estas piezas han salido en el juego, entonces tenemos un \textit{Ukeire} de $4+3+4+3+4 = 18$.
+si ninguna de estas piezas han salido en el juego, entonces tenemos un \textit{Ukeire} de $4+3+4+3+4 = 18$. Por lo tanto, queremos maximizar el \textit{Ukeire} en cada turno, ya que esto nos da más posibilidades de mejorar nuestra mano y llegar a \textit{Tenpai}.
 
 \subsubsection{Shanten}
 \label{seubsec:shanten}
-El \textit{Shanten} se define por el número de turnos que hace mejorar la mano para llegar a \textit{Tenpai}. Un \textit{Shanten} de $0$ indica que la mano está en \textit{Tenpai} (falta solo una pieza para ganar), igualmente, una mano en 1-\textit{Shanten} indica que falta una pieza para llegar a \textit{Tenpai} y así por delante.
+El \textit{Shanten} se define por el número de turnos que hace mejorar la mano para llegar a \textit{Tenpai}. Un \textit{Shanten} de $0$ indica que la mano está en \textit{Tenpai} (falta solo una pieza para ganar), igualmente, una mano en 1-\textit{Shanten} indica que falta una pieza para llegar a \textit{Tenpai} y así por delante. Por lo tanto, queremos minimizar el \textit{Shanten} en cada turno, ya que esto nos acerca a ganar la mano. El \textit{Tenpai} también puede ser definido como el estado de la mano en el que se está a una pieza de ganar, es decir, cuando el \textit{Shanten} es $0$.
 
 
 \subsection{Transformers}
