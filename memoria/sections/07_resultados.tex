@@ -1,0 +1,30 @@
+\section{Resultados}
+
+En esta sección se presentarán los resultados iniciales obtenidos de un primer modelo con 100k de datos de entrenamiento y un segundo modelo con 500k de datos de entrenamiento. Se presentarán las curvas de pérdida y precisión de los modelos así como las curvas de precisión top-k. Además de eso, veremos más adelante los resultados de la policy head de los modelos, que nos permitirán ver si el modelo es capaz de aprender a predecir la probabilidad de cada tile de ser descartado en un estado de juego dado.
+
+\subsection{Primer Modelo}
+
+Este primer modelo fue entrenado con 100k de datos de entrenamiento, 10k de validación y 10k de testeo. El modelo fue entrenado durante 15 épocas, con un batch size de 64 y un learning rate de 1e-4. A continuación se presentan las curvas de pérdida y precisión del modelo durante el entrenamiento y la validación.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/01_loss_curves.png}
+    \caption{Curvas de pérdida y precisión del primer modelo con 100k de datos de entrenamiento.}
+    \label{fig:loss_curves_100k}
+\end{figure}
+  
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/01_accuracy_curves.png}
+    \caption{Curvas de pérdida y precisión del primer modelo con 100k de datos de entrenamiento.}
+    \label{fig:accuracy_curves_100k}
+\end{figure}
+    
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/01_top_k_accuracy.png}
+    \caption{Curvas de precisión top-k del primer modelo con 100k de datos de entrenamiento.}
+    \label{fig:top_k_accuracy_100k}
+\end{figure}
+    
