@@ -309,6 +309,8 @@ Los tokens de descarte represetan eventos de descartes que son públicos y orden
 
 \subsubsection{Tokens de Melds}
 
+Los Tokens de Melds representan eventos de melds que son públicos y ordenados, los campos de un token de meld son los siguientes:
+
 \begin{table}[]
 \centering
 \begin{tabular}{|l|l|}
@@ -325,4 +327,241 @@ global\_order   & orden cronoologica de llamada               \\ \hline
 \end{tabular}
 \caption{Campos de Token de Melds}
 \label{tab:melds_token}
+\end{table}Message sent Undo
+1 of 4,365
+
+
+\subsubsection{Tokens de Acciones}
+
+Los Tokens de Acciones representan eventos de acciones candidatas que son públicos y ordenados, los campos de un token de acción son los siguientes:
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Campo} & \textbf{Objetivo}         \\ \hline
+    token\_type    & identifica el token ACTION    \\ \hline
+    acting\_player & jugador que realiza la acción \\ \hline
+    action\_index  & índice dentro del conjunto de candidatos legales \\ \hline
+    action\_type   & descartar / riichi / pon / etc \\ \hline
+    tile\_types    & piezas involucradas en la acción \\ \hline
+    copy\_indices  & distinción de duplicados \\ \hline
+    red\_flags     & soporte de dora rojo \\ \hline
+    source\_players & fuente de las piezas llamadas \\ \hline
+    global\_order  & orden cronológico de la acción \\ \hline
+  \end{tabular}
+  \caption{Campos de Token de Acciones}
+  \label{tab:action_token}
+  
 \end{table}
+
+\subsubsection{Tokens de Estado de Juego}
+
+Los Tokens de Estado de Juego representan información contextual del juego que es pública y no ordenada, los campos de un token de estado de juego son los siguientes:
+
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Campo} & \textbf{Objetivo}         \\ \hline
+    token\_type    & identifica el token GAME\_STATE    \\ \hline
+    round\_wind      & ronda Este/Sur            \\ \hline
+    honba\_count     & honba actual               \\ \hline
+    riichi\_sticks   & depósitos de riichi             \\ \hline
+    remaining\_tiles  & piezas restantes en la pared          \\ \hline
+    dora\_indicators & indicadores de dora actuales     \\ \hline
+  \end{tabular}
+  \caption{Campos de Token de Estado de Juego}
+  \label{tab:game_state_token}
+\end{table}
+
+\subsubsection{Tokens de Estado de Jugadores}
+
+Los Tokens de Estado de Jugadores representan información contextual de cada jugador que es pública y no ordenada, los campos de un token de estado de jugadores son los siguientes:
+
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Campo} & \textbf{Objetivo}         \\ \hline
+    token\_type    & identifica el token PLAYER\_STATE    \\ \hline
+    player          & identidad del jugador                   \\ \hline
+    seat\_wind      & este/sur/oeste/norte          \\ \hline
+    score           & puntos actuales                 \\ \hline
+    riichi\_status  & si el jugador ha declarado riichi \\ \hline
+    placement       & posición actual                \\ \hline
+    open\_hand      & si el jugador tiene mano abierta \\ \hline
+  \end{tabular}
+  \caption{Campos de Token de Estado de Jugadores}
+  \label{tab:player_state_token}
+\end{table}
+
+\subsection{Diseño del Embedding}
+
+La estructura general del embedding es la siguiente:
+
+$$\text{Embedding}(\text{token}) = 
+\text{token\_type\_embedding} +
+\text{semantic\_embedding} +
+\text{metadata\_embedding} +
+\text{positional\_embeddings} $$
+
+Tipos diferentes de tokens utilizarán diferentes embeddings a depender de su estrucura semantica.
+
+Cada categoría de token tendrá un embedding dedicado de tipo de token, que podrá ser uno de los siguientes: HAND, DISCARD, MELD, ACTION, GAME\_STATE o PLAYER\_STATE.
+
+A continuación, veremos la estructura de embedding para cada token semántico.
+
+\subsubsection{Embedding de Tokens de Piezas}
+
+Este Embedding codifica la identidad de la pieza, por ejmplo:
+1m, 5p, east, red\_dragon. Los embeddings de piezas son compartidos entre los tokens de mano, descarte, melds y de acciones.
+
+\subsubsection{Embedding del índice de cópia}
+
+Instancias de piezas duplicadas (por ejemplo, dos 5m) se distinguen mediante un índice de copia. Este embedding permite al modelo diferenciar entre estas instancias. 
+
+\subsubsection{Embedding de Jugador}
+
+Este embedding codifica la identidad del jugador, por ejemplo, jugador 0, jugador 1, etc. Los embeddings de jugadores son compartidos entre los tokens de descarte, melds, acciones y estado de jugadores.
+
+
+\subsubsection{Embeddings Posicionales}
+
+Los embeddings posicionales preservan el orden temporal de los eventos de juego, como descartes, momento en que se realizaron melds y extensiones de treyectorias de acciones. Existen dos tipos de esquemas posicionales: orden cronologica global y orden de descarte local de jugador.
+
+\subsubsection{Embeddings de Metadatos}
+
+Los embeddings de metadatos codifican información adicional relevante para cada token, como indicadores de dora, estado de riichi, y otros atributos contextuales. Estos embeddings permiten al modelo capturar relaciones complejas entre los tokens y el contexto del juego.
+
+\subsubsection{Embedding de Token de Mano}
+
+Los tokens de mano representan piezas escondidas del jugador actual y es definida por la siguiente estructura de embedding:
+
+
+$$\text{E\_hand} = \text{E\_token\_type} + \text{E\_tile} + \text{E\_copy} + \text{E\_red}$$
+
+Dónde:
+
+\begin{itemize}
+  \item E\_token\_type identifica el token como una entidad de tipo HAND,
+  \item E\_tile representa la identidad semántica de la pieza,
+  \item E\_copy distingue entre instancias duplicadas de piezas,
+  \item E\_red indica si la pieza es un dora rojo.
+\end{itemize}
+  
+\subsubsection{Embedding de Token de Descarte}
+
+Los tokens de descarte representan eventos de descartes que son públicos y ordenados, y su embedding es definido por la siguiente estructura:
+
+\begin{equation}
+  \begin{split}
+    \text{E\_discard} = \text{E\_token\_type} + \text{E\_tile} + \text{E\_copy} + \\ \text{E\_red} + \text{E\_player} + \text{E\_tsumogiri} + \\ \text{E\_riichi\_declaration} + \text{E\_global\_position} + \text{E\_local\_position}
+  \end{split}
+\end{equation}
+
+Dónde:
+
+\begin{itemize}
+  \item E\_token\_type identifica el token como una entidad de tipo DISCARD,
+  \item E\_tile representa la identidad semántica de la pieza,
+  \item E\_copy distingue entre instancias duplicadas de piezas,
+  \item E\_red indica si la pieza es un dora rojo,
+  \item E\_player identifica al jugador que ha descartado la pieza,
+  \item E\_tsumogiri indica si la pieza descartada fué una pieza inmediatamente comprada,
+  \item E\_riichi\_declaration indica si al descartar esa pieza se declara riichi,
+  \item E\_global\_position representa el orden cronológico global del descarte,
+  \item E\_local\_position representa el orden de descarte relativo al jugador.
+\end{itemize}
+
+\subsubsection{Embedding de Token de Meld}
+
+Tokens de Melds representan llamadas hechas durante la partida, y su embedding es definido por la siguiente estructura:
+
+\begin{equation}
+  \begin{split}
+    \text{E\_meld} = \text{E\_token\_type} + \text{E\_player} + \text{E\_meld\_type} + \\ \text{E\_tile\_set} + \text{E\_copy\_set} + \text{E\_red\_set} + \\ \text{E\_source\_players} + \text{E\_global\_position}
+  \end{split}
+\end{equation}
+
+
+Dónde:
+
+\begin{itemize}
+  \item E\_token\_type identifica el token como una entidad de tipo MELD,
+  \item E\_player identifica al jugador que posee el meld,
+  \item E\_meld\_type representa el tipo de meld (chi, pon, kan, etc),
+  \item E\_tile\_set codifica las piezas que componen el meld,
+  \item E\_copy\_set distingue entre instancias duplicadas de piezas,
+  \item E\_red\_set codifica la información de dora rojo,
+  \item E\_source\_players identifica los jugadores que contribuyeron a cada pieza del meld,
+  \item E\_global\_position representa el orden cronológico de la llamada.
+\end{itemize}
+
+\subsubsection{Embedding de Token de Acción}
+
+Tokens de Acciones representan eventos de acciones candidatas que son públicos y ordenados, y su embedding es definido por la siguiente estructura:
+
+\begin{equation}
+  \begin{split}
+    \text{E\_action} = \text{E\_token\_type} + \text{E\_action\_type} + \\ \text{E\_tile\_set} + \text{E\_copy\_set} + \text{E\_red\_set} + \\ \text{E\_source\_players} + \text{E\_global\_position}
+  \end{split}
+\end{equation}
+
+
+Dónde:
+
+\begin{itemize}
+  \item E\_token\_type identifica el token como una entidad de tipo ACTION,
+  \item E\_action\_type representa descarte, riichi, chi, pon, kan, etc,
+  \item E\_tile\_set representa las piezas involucradas en la acción,
+  \item E\_copy\_set distingue entre instancias duplicadas de piezas,
+  \item E\_red\_set codifica la información de dora rojo,
+  \item E\_source\_players identifica las fuentes de las piezas para llamadas,
+  \item E\_global\_position representa el timing de la acción.
+\end{itemize}
+
+\subsubsection{Embedding de Token de Estado de Juego}
+
+Tokens de Estado de Juego representan información contextual del juego que es pública y no ordenada, y su embedding es definido por la siguiente estructura:
+
+\begin{equation}
+  \begin{split}
+    \text{E\_game} = \text{E\_token\_type} + \text{E\_round} + \text{E\_honba} + \\ \text{E\_riichi\_sticks} + \text{E\_remaining\_tiles} + \text{E\_dora\_set}
+  \end{split}
+\end{equation}
+
+Dónde:
+
+\begin{itemize}
+  \item E\_token\_type identifica el token como una entidad de tipo GAME\_STATE,
+  \item E\_round codifica el viento de la ronda (este/sur),
+  \item E\_honba representa el número de honba actuales,
+  \item E\_riichi\_sticks codifica la cantidad de depósitos de riichi,
+  \item E\_remaining\_tiles representa las piezas restantes en la pared,
+  \item E\_dora\_set codifica los indicadores de dora actuales.
+\end{itemize}
+
+\subsubsection{Embedding de Token de Estado de Jugador}
+
+El Token de Estado de Jugador representa información contextual persistente asociada con cada jugador, y su embedding es definido por la siguiente estructura:
+
+
+\begin{equation}
+  \begin{split}
+    \text{E\_player\_state} = \text{E\_token\_type} + \text{E\_player} + \\ \text{E\_seat} + \text{E\_score} + \text{E\_riichi\_status} + \text{E\_open\_hand}
+  \end{split}
+\end{equation}
+
+Dónde:
+
+\begin{itemize}
+  \item E\_token\_type identifica el token como una entidad de tipo PLAYER\_STATE,
+  \item E\_player codifica la identidad del jugador,
+  \item E\_seat representa el viento de asiento del jugador (este/sur/oeste/norte),
+  \item E\_score codifica los puntos actuales del jugador,
+  \item E\_riichi\_status indica si el jugador ha declarado riichi,
+  \item E\_open\_hand indica si el jugador tiene una mano abierta.
+\end{itemize}

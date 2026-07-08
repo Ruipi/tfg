@@ -21,12 +21,11 @@
   \datalist[entry]{nyt/global//global/global/global}
     \entry{chiba2015riichi}{book}{}{}
       \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=e446d49d2573da550ae177378fa86ed7}{%
+        {{hash=e446d49d2573da550ae177378fa86ed7}{%
            family={Chiba},
            familyi={C\bibinitperiod},
            given={Daina},
-           giveni={D\bibinitperiod},
-           givenun=0}}%
+           giveni={D\bibinitperiod}}}%
       }
       \list{publisher}{1}{%
         {Lulu.com}%
@@ -41,17 +40,116 @@
       \strng{authorfullhashraw}{e446d49d2573da550ae177378fa86ed7}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{isbn}{978-1329626478}
       \field{title}{Riichi Book 1: The Ultimate Guide to the Japanese Game Taking the World by Storm}
       \field{year}{2015}
     \endentry
+    \entry{tjong}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=ff373549601281e5b4d732295a662085}{%
+           family={Developers},
+           familyi={D\bibinitperiod},
+           given={Tjong},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{ff373549601281e5b4d732295a662085}
+      \strng{fullhash}{ff373549601281e5b4d732295a662085}
+      \strng{fullhashraw}{ff373549601281e5b4d732295a662085}
+      \strng{bibnamehash}{ff373549601281e5b4d732295a662085}
+      \strng{authorbibnamehash}{ff373549601281e5b4d732295a662085}
+      \strng{authornamehash}{ff373549601281e5b4d732295a662085}
+      \strng{authorfullhash}{ff373549601281e5b4d732295a662085}
+      \strng{authorfullhashraw}{ff373549601281e5b4d732295a662085}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/tjong}}
+      \field{note}{Open-source Riichi Mahjong AI platform}
+      \field{title}{Tjong AI Mahjong Platform}
+      \field{year}{2024}
+    \endentry
+    \entry{DBLP:journals/corr/abs-1810-04805}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=13202969e372bc82318f9629cbdd199b}{%
+           family={Devlin},
+           familyi={D\bibinitperiod},
+           given={Jacob},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a45784fe7163b45f11d166564f5d24b6}{%
+           family={Chang},
+           familyi={C\bibinitperiod},
+           given={Ming{-}Wei},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8dde73b4194f5bc4230c4808f3fc1534}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Kenton},
+           giveni={K\bibinitperiod}}}%
+        {{hash=b92aa283415413bb8d2a1548716d0c7d}{%
+           family={Toutanova},
+           familyi={T\bibinitperiod},
+           given={Kristina},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{ad8e2e2a80d28ade21e86852b804fc9b}
+      \strng{fullhash}{e8bccd48302a14eeba57d9dce2f49ef4}
+      \strng{fullhashraw}{e8bccd48302a14eeba57d9dce2f49ef4}
+      \strng{bibnamehash}{e8bccd48302a14eeba57d9dce2f49ef4}
+      \strng{authorbibnamehash}{e8bccd48302a14eeba57d9dce2f49ef4}
+      \strng{authornamehash}{ad8e2e2a80d28ade21e86852b804fc9b}
+      \strng{authorfullhash}{e8bccd48302a14eeba57d9dce2f49ef4}
+      \strng{authorfullhashraw}{e8bccd48302a14eeba57d9dce2f49ef4}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{CoRR}
+      \field{title}{{BERT:} Pre-training of Deep Bidirectional Transformers for Language Understanding}
+      \field{volume}{abs/1810.04805}
+      \field{year}{2018}
+      \verb{eprint}
+      \verb 1810.04805
+      \endverb
+      \verb{urlraw}
+      \verb http://arxiv.org/abs/1810.04805
+      \endverb
+      \verb{url}
+      \verb http://arxiv.org/abs/1810.04805
+      \endverb
+    \endentry
+    \entry{hussein2017imitation}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=eaf6c67e979a8ffb4cf1a087a4b76e56}{%
+           family={Hussein},
+           familyi={H\bibinitperiod},
+           given={Ahmed},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{610106b844d598aa1a1c72e443f221e3}
+      \strng{fullhash}{610106b844d598aa1a1c72e443f221e3}
+      \strng{fullhashraw}{610106b844d598aa1a1c72e443f221e3}
+      \strng{bibnamehash}{610106b844d598aa1a1c72e443f221e3}
+      \strng{authorbibnamehash}{610106b844d598aa1a1c72e443f221e3}
+      \strng{authornamehash}{610106b844d598aa1a1c72e443f221e3}
+      \strng{authorfullhash}{610106b844d598aa1a1c72e443f221e3}
+      \strng{authorfullhashraw}{610106b844d598aa1a1c72e443f221e3}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Computing Surveys}
+      \field{title}{Imitation Learning: A Survey of Learning Methods}
+      \field{year}{2017}
+    \endentry
     \entry{riichiWikiRulesOverview}{online}{}{}
       \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=92892bfbf41a98db70a9e890b646c0ae}{%
+        {{hash=92892bfbf41a98db70a9e890b646c0ae}{%
            family={{Japanese Mahjong Wiki}},
            familyi={J\bibinitperiod}}}%
       }
@@ -65,8 +163,6 @@
       \strng{authorfullhashraw}{92892bfbf41a98db70a9e890b646c0ae}
       \field{sortinit}{J}
       \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Rules overview}}
@@ -86,66 +182,56 @@
       \true{moreauthor}
       \true{morelabelname}
       \name{author}{10}{}{%
-        {{un=1,uniquepart=given,hash=cc7c788df3d7d1badcb714ffa61f1c47}{%
+        {{hash=cc7c788df3d7d1badcb714ffa61f1c47}{%
            family={Li},
            familyi={L\bibinitperiod},
            given={Junquan},
-           giveni={J\bibinitperiod},
-           givenun=1}}%
-        {{un=1,uniquepart=given,hash=6af9bbc02b87161e17edc480fc00feb1}{%
+           giveni={J\bibinitperiod}}}%
+        {{hash=6af9bbc02b87161e17edc480fc00feb1}{%
            family={Wang},
            familyi={W\bibinitperiod},
            given={Quanming},
-           giveni={Q\bibinitperiod},
-           givenun=1}}%
-        {{un=1,uniquepart=given,hash=c352dd59dbc8c74641f118e6d571471f}{%
+           giveni={Q\bibinitperiod}}}%
+        {{hash=c352dd59dbc8c74641f118e6d571471f}{%
            family={Li},
            familyi={L\bibinitperiod},
            given={Xucheng},
-           giveni={X\bibinitperiod},
-           givenun=1}}%
-        {{un=1,uniquepart=given,hash=f0da320d618c96e08c60526c74dd9e59}{%
+           giveni={X\bibinitperiod}}}%
+        {{hash=f0da320d618c96e08c60526c74dd9e59}{%
            family={Sun},
            familyi={S\bibinitperiod},
            given={Liwei},
-           giveni={L\bibinitperiod},
-           givenun=1}}%
-        {{un=1,uniquepart=given,hash=49a19e08791a3dc09c932ff975949361}{%
+           giveni={L\bibinitperiod}}}%
+        {{hash=49a19e08791a3dc09c932ff975949361}{%
            family={Wang},
            familyi={W\bibinitperiod},
            given={Jing},
-           giveni={J\bibinitperiod},
-           givenun=1}}%
-        {{un=1,uniquepart=given,hash=79c353f5d45457144086442ebf9cd7fe}{%
+           giveni={J\bibinitperiod}}}%
+        {{hash=79c353f5d45457144086442ebf9cd7fe}{%
            family={Sun},
            familyi={S\bibinitperiod},
            given={Rong},
-           giveni={R\bibinitperiod},
-           givenun=1}}%
-        {{un=0,uniquepart=base,hash=a6a16df064385d0ff8aa062ba67f5787}{%
+           giveni={R\bibinitperiod}}}%
+        {{hash=a6a16df064385d0ff8aa062ba67f5787}{%
            family={Luo},
            familyi={L\bibinitperiod},
            given={Sichuan},
-           giveni={S\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=b7c083cd88ad385d770eef8158c4104d}{%
+           giveni={S\bibinitperiod}}}%
+        {{hash=b7c083cd88ad385d770eef8158c4104d}{%
            family={Si},
            familyi={S\bibinitperiod},
            given={Luo},
-           giveni={L\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=dbcdb32ac2f80a8877a0fa07f9af5383}{%
+           giveni={L\bibinitperiod}}}%
+        {{hash=dbcdb32ac2f80a8877a0fa07f9af5383}{%
            family={Peng},
            familyi={P\bibinitperiod},
            given={Fei},
-           giveni={F\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=84cf4b6abb6a868ac876d832b6c75bf7}{%
+           giveni={F\bibinitperiod}}}%
+        {{hash=84cf4b6abb6a868ac876d832b6c75bf7}{%
            family={Tang},
            familyi={T\bibinitperiod},
            given={Jinhua},
-           giveni={J\bibinitperiod},
-           givenun=0}}%
+           giveni={J\bibinitperiod}}}%
       }
       \strng{namehash}{fabc0b0b3ff02703c8f34d4b63697478}
       \strng{fullhash}{61b587f3be71a6507d5f7aa684972e23}
@@ -157,13 +243,66 @@
       \strng{authorfullhashraw}{61b587f3be71a6507d5f7aa684972e23}
       \field{sortinit}{L}
       \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{arXiv preprint arXiv:2003.13590}
       \field{title}{Suphx: Mastering Mahjong with Deep Reinforcement Learning}
       \field{year}{2020}
+    \endentry
+    \entry{tam2025encoders}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=77717f78f6c5d03345b16f044c9fdcd8}{%
+           family={Tam},
+           familyi={T\bibinitperiod},
+           given={Adrian},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Machine Learning Mastery}%
+      }
+      \strng{namehash}{77717f78f6c5d03345b16f044c9fdcd8}
+      \strng{fullhash}{77717f78f6c5d03345b16f044c9fdcd8}
+      \strng{fullhashraw}{77717f78f6c5d03345b16f044c9fdcd8}
+      \strng{bibnamehash}{77717f78f6c5d03345b16f044c9fdcd8}
+      \strng{authorbibnamehash}{77717f78f6c5d03345b16f044c9fdcd8}
+      \strng{authornamehash}{77717f78f6c5d03345b16f044c9fdcd8}
+      \strng{authorfullhash}{77717f78f6c5d03345b16f044c9fdcd8}
+      \strng{authorfullhashraw}{77717f78f6c5d03345b16f044c9fdcd8}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://machinelearningmastery.com/encoders-and-decoders-in-transformer-models/}}
+      \field{month}{09}
+      \field{note}{Accessed: 2026-06-26}
+      \field{title}{Encoders and Decoders in Transformer Models}
+      \field{year}{2025}
+    \endentry
+    \entry{vaswani2017attention}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=7f28e84700536646dd6620a0db07ad09}{%
+           family={Vaswani},
+           familyi={V\bibinitperiod},
+           given={Ashish},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{fullhash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{fullhashraw}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{bibnamehash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{authorbibnamehash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{authornamehash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{authorfullhash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{authorfullhashraw}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{NeurIPS}
+      \field{title}{Attention Is All You Need}
+      \field{year}{2017}
     \endentry
   \enddatalist
 \endrefsection
