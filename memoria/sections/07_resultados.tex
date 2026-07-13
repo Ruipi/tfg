@@ -2,6 +2,10 @@
 
 En esta sección se presentarán los resultados iniciales obtenidos de un primer modelo con 100k de datos de entrenamiento y un segundo modelo con 500k de datos de entrenamiento. Se presentarán las curvas de pérdida y precisión de los modelos así como las curvas de precisión top-k. Además de eso, veremos más adelante los resultados de la policy head de los modelos, que nos permitirán ver si el modelo es capaz de aprender a predecir la probabilidad de cada tile de ser descartado en un estado de juego dado.
 
+Para cada modelo, se presentarán las curvas de pérdida y de precisión top-1 de testeo y validación, luego se presentarán en conjunto las curvas top-3 y top-5 de validación. A continuación se presentará la distribución de confianza del modelo y finalmente los resultados de la precisión cuando separadas por categorías semánticas de error basadas en el Shanten \ref{seubsec:shanten} y el Ukeire \ref{seubsec:ukeire} que será presentado en una sección posterior de comparación de modelos.
+
+
+
 \subsection{Primer Modelo}
 
 Este primer modelo fue entrenado con 100k de datos de entrenamiento, 10k de validación y 10k de testeo. El modelo fue entrenado durante 15 épocas, con un batch size de 64 y un learning rate de 1e-4. A continuación se presentan las curvas de pérdida y precisión del modelo durante el entrenamiento y la validación.
@@ -19,7 +23,6 @@ Este primer modelo fue entrenado con 100k de datos de entrenamiento, 10k de vali
     \caption{Curvas de pérdida y precisión del primer modelo con 100k de datos de entrenamiento.}
     \label{fig:accuracy_curves_100k}
 \end{figure}
-    
 
 \begin{figure}[H]
     \centering
@@ -28,3 +31,90 @@ Este primer modelo fue entrenado con 100k de datos de entrenamiento, 10k de vali
     \label{fig:top_k_accuracy_100k}
 \end{figure}
     
+Con estos resultados obtuvimos un serie de observaciones importantes: la primera es que el modelo no llegó a la saturación de la precisión, lo que nos indica que el modelo no está sobreajustando los datos de entrenamiento y que podría mejorar con más datos de entrenamiento. La segunda observación es que apesar de que la precisión top-1 del modelo es de 0.65 para los datos de entrenamiento y 0.591 para los datos de valisación, la precisión top-3 es de 0.84 y la top-5 es de 0.91, lo que indica que el modelo es capaz de aprender a predecir los descartes de Mahjong a partir del diseño y la arquitectura que tenemos, y que con más datos de entrenamiento podría mejorar su precisión top-1.
+
+A seguir podemos ver el gráfico de distribución de confianza del modelo, que nos permite ver la distribución de la probabilidad de los descartes predichos por el modelo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/01_model_confidence.png}
+    \caption{Distribución de confianza del primer modelo con 100k de datos de entrenamiento.}
+    \label{fig:confidence_distribution_100k}
+\end{figure}
+
+Con este gráfico podemos ver que el modelo tiene un pico en la probabilidad de 1.0. Este pico indica una confianza del 100\% en muchas de las predicciones del modelo, no obstante, esta confianza puede ser explicada con los estados de juego en el que existe una única opción de descarte. Para arreglar esto, se realizó una limpieza de datos para eliminar los estados de juego en los que existe una única opción de descarte para el entrenamiento del próximo modelo, que será presentado a continuación.
+
+\subsection{Segundo Modelo}
+
+Este segundo modelo fue entrenado con 500k de datos de entrenamiento, 50k de validación y 50k de testeo. El modelo fue entrenado durante 15 épocas, con un batch size de 64 y un learning rate de 1e-4. A continuación se presentan las curvas de pérdida y precisión del modelo durante el entrenamiento de las épocas 9 a 15. El dataset de entrenamiento también fue limpiado para eliminar los estados de juego en los que existe una única opción de descarte.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/02_training_metrics.png}
+    \caption{Curvas de pérdida y precisión del segundo modelo con 500k de datos de entrenamiento.}
+    \label{fig:loss_curves_500k}
+\end{figure}
+    
+Y en esta figura podemos ver el gráfico de distribución de confianza del modelo ajustado sin los estados de juego en los que existe una única opción de descarte.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/02_model_confidence.png}
+    \caption{Distribución de confianza del segundo modelo con 500k de datos de entrenamiento.}
+    \label{fig:confidence_distribution_500k}
+\end{figure}
+
+Podemos ver que pese a la disminución de la confianza del modelo, el modelo sigue teniendo un pico en la probabilidad de 1.0, lo que indica que el modelo sigue teniendo una confianza del 100\% en muchas de sus predicciones. Además de eso, podemos ver que la tiene un segundo pico en el 0.5 donde se mantiene estable hasta el 0.9. Estos resultados indican una buena confianza del modelo en sus predicciones, principalmente si consideramos que en su mayoria de los estados de juego existen 13 opciones de descarte posibles en media.
+
+\subsection{Validación Estratégica}
+
+La validación estratégica es un proceso que nos permite evaluar la capacidad del modelo para predecir descartes de Mahjong en función de la estrategia de juego. Para ello, se utilizaron métricas basadas en el Shanten y el Ukeire, que nos permiten clasificar los errores del modelo en diferentes categorías semánticas.
+
+Las categorias creadas son las siguientes:
+
+\begin{itemize}
+    \item Exact match: el descarte predicho por el modelo coincide exactamente con el descarte real del jugador.
+    \item Equivalent: el descarte predicho por el modelo resulta en el mismo Shanten y Ukeire que el descarte real del jugador.
+    \item Better shanten: el descarte predicho por el modelo resulta en un Shanten menor que el descarte real del jugador.
+    \item Better ukeire: el descarte predicho por el modelo resulta en un Ukeire mayor que el descarte real del jugador.
+    \item Near equivalent: el descarte predicho por el modelo resulta en un Shanten y Ukeire que difieren en máximo dos unidades del descarte real del jugador.
+    \item Shanten loss: el descarte predicho por el modelo resulta en un Shanten mayor que el descarte real del jugador.
+    \item Ukeire loss: el descarte predicho por el modelo resulta en un Ukeire menor.
+\end{itemize}
+
+\subsubsection{Validación Estratégica del Primer Modelo}
+
+%IMAGES:
+%01_classificacion_estrategica.png
+%01_conf_dist_by_cat.png
+%01_conf_dist_strat.png
+%01_exactvstrategic.png
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/01_classificacion_estrategica.png}
+    \caption{Porcentaje de Cada Categoría Estratégica en el Primer Modelo}
+    \label{fig:strategic_class_100k}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/01_exactvstrategic.png}
+    \caption{Comparación validación de accuracy exacta vs accuracy estratégica en el Primer Modelo}
+    \label{fig:exact_vs_strat_100k}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/01_conf_dist_strat.png}
+    \caption{Distribución de confianza del primer modelo con ajustado al dataset sin opciones unitárias}
+    \label{fig:confidence_distribution_better_100k}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/01_conf_dist_by_cat.png}
+    \caption{Distribución de confianza del primer modelo por categoría de la validación estratégica}
+    \label{fig:confidence_distribution_by_cat_100k}
+\end{figure}
