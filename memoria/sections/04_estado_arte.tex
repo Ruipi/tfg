@@ -1,6 +1,29 @@
-\section{Estado Del Arte}
+\section{Estado del Arte}
 
-La Inteligencia Artificial capaz dde jugar al Majong más conocida e importante es Suphx\cite{li2020suphx}, una IA creada por Microsoft utilizando una arquitectura de CNNs (Redes Neuronales Convolucionales) que después pasa por una arquitectura de RL (Reinforcement Learning). Suphx alcanzó resultados muy buenos, como llegar al top 0.1\% de la plataforma Tenhou.net, una de las más grandes plataformas de Riichi Mahjong Online.
+El desarrollo de sistemas de Inteligencia Artificial capaces de jugar al Riichi Mahjong ha experimentado un avance significativo durante los últimos años gracias al empleo de técnicas de aprendizaje profundo y aprendizaje por refuerzo. Entre los modelos más representativos destacan Suphx, Mortal y NAGA, que representan diferentes aproximaciones al problema.
 
+\subsection{Suphx}
 
-No obstante, su arquitectura convolucional utiliza datos que ocupan mucha memória espacial, de forma muy extensiva, debido a que transforma los datos de estados de juego de Mahjong en imágenes, por lo que otros modelos como el Tjong\cite{tjong} buscan resolver ese problema utilizando transformers, de forma a que cada estado del juego obtiene un preprocesado mucho más sencillo y eficiente, el modelo de Tjong, no obstante, está entrenado para el Mahjong de la varación China, debido a eso, este trabajo propone un modelo de clasificación de descartes de Riichi Mahjong (la variación Japonesa de Mahjong) mediante Transformers.
+Suphx\cite{li2020suphx}, desarrollado por Microsoft Research, constituye uno de los primeros sistemas capaces de alcanzar un nivel profesional en Riichi Mahjong. Su arquitectura combina redes neuronales convolucionales (CNN) con técnicas de aprendizaje por refuerzo, representando el estado de la partida mediante una codificación espacial similar a una imagen.
+
+Gracias a esta aproximación, Suphx consiguió situarse entre el 0.1\% de mejores jugadores de la plataforma Tenhou.net, convirtiéndose en un referente dentro de la investigación en Inteligencia Artificial aplicada al Mahjong.
+
+Sin embargo, la representación espacial utilizada implica un elevado coste computacional y requiere un preprocesamiento considerable para transformar el estado del juego en tensores bidimensionales adecuados para una CNN.
+
+\subsection{Transformers aplicados al Mahjong}
+
+La aparición de la arquitectura Transformer permitió explorar nuevas formas de representar el estado de una partida sin necesidad de convertirlo en una estructura espacial.
+
+Uno de los primeros trabajos en esta dirección fue Tjong\cite{tjong}, que emplea Transformers para representar el estado del juego mediante secuencias de tokens. Esta aproximación reduce significativamente la complejidad del preprocesamiento y facilita la incorporación de nuevas características al modelo. No obstante, Tjong fue diseñado para Mahjong chino, cuyas reglas difieren considerablemente del Riichi Mahjong.
+
+Otro modelo destacado es Mortal, un proyecto de código abierto basado también en Transformers y técnicas de aprendizaje por imitación combinadas con aprendizaje por refuerzo. Mortal ha demostrado un rendimiento competitivo frente a Suphx y constituye actualmente uno de los motores abiertos más potentes para Riichi Mahjong. Sin embargo, la documentación técnica disponible es limitada y gran parte de su implementación se centra en la optimización del rendimiento, dificultando su utilización como referencia académica para comprender el diseño completo del modelo.
+
+Por otra parte, NAGA es un motor comercial ampliamente utilizado por jugadores de Riichi Mahjong para analizar partidas y estudiar estrategias. Aunque ha demostrado un elevado nivel de juego, su arquitectura y proceso de entrenamiento no son públicos, por lo que únicamente puede considerarse como una referencia del estado actual de la tecnología y no como un modelo reproducible desde el punto de vista científico.
+
+\subsection{Posicionamiento del presente trabajo}
+
+A diferencia de Suphx, el presente trabajo no emplea representaciones espaciales mediante CNN, sino una representación basada en tokens procesada directamente por un Transformer de tipo encoder.
+
+Asimismo, frente a modelos como Mortal o NAGA, cuyo objetivo principal consiste en maximizar el rendimiento competitivo mediante arquitecturas complejas y técnicas avanzadas de entrenamiento, este proyecto persigue un objetivo diferente: desarrollar un modelo reproducible y comprensible desde un punto de vista académico que permita estudiar la aplicación de Transformers al problema del descarte en Riichi Mahjong.
+
+Para ello se emplea aprendizaje por imitación sobre partidas reales de Tenhou.net, utilizando una representación explícita del estado del juego y evaluando el modelo no únicamente mediante precisión de clasificación, sino también mediante métricas estratégicas propias del dominio, como Shanten y Ukeire.

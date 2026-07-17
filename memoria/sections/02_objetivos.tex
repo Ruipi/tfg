@@ -9,20 +9,44 @@ el uso de los Transformers para juegos de información imperfecta.
 Nos planteamos los siguientes objetivos:
 
 \begin{table}[H]
-  \centering
-  \caption{Objetivos del proyecto}
-  \label{tab:objetivos}
-  \begin{tabular}{@{}cl p{6cm} l@{}} 
-    \toprule
-    \textbf{ID} & \textbf{Tipo} & \textbf{Objetivo} & \textbf{Prioridad} \\
-    \midrule
-    OBJ-01 & General       & Desarrollar un agente capaz de descartar piezas de Mahjong de forma autónoma. & Alta \\
-    OBJ-02 & Funcional     & Implementar un entorno de simulación de partidas de Mahjong. & Alta \\
-    OBJ-03 & Funcional     & Entrenar el agente mediante aprendizaje por refuerzo. & Alta \\
-    OBJ-04 & Funcional     & Evaluar el rendimiento del agente frente al dataset de test y heurísticas. & Alta \\
-    OBJ-05 & No funcional  & Garantizar que el entorno de simulación sea reproducible y configurable. & Media \\
-    OBJ-06 & No funcional  & Documentar el código y el proceso de entrenamiento. & Media \\
-    OBJ-07 & General       & Analizar el estado del arte en agentes de juegos de información imperfecta. & Baja \\
-    \bottomrule
-  \end{tabular}
+\centering
+\caption{Objetivos del proyecto}
+\label{tab:objetivos}
+
+\begin{tabular}{@{}cl p{8cm} l@{}}
+\toprule
+\textbf{ID} & \textbf{Tipo} & \textbf{Objetivo} & \textbf{Prioridad} \\
+\midrule
+
+OBJ-01 & General &
+Desarrollar un modelo basado en Transformers capaz de predecir el descarte realizado por un jugador experto de Riichi Mahjong. &
+Alta \\
+
+OBJ-02 & Funcional &
+Diseñar e implementar un parser que reconstruya el estado completo de una partida a partir del conjunto de datos de Tenhou. &
+Alta \\
+
+OBJ-03 & Funcional &
+Diseñar una representación del estado del juego basada en tokens adecuada para una arquitectura Transformer. &
+Alta \\
+
+OBJ-04 & Funcional &
+Entrenar el modelo mediante aprendizaje por imitación utilizando partidas reales de Riichi Mahjong. &
+Alta \\
+
+OBJ-05 & Funcional &
+Evaluar el rendimiento del modelo mediante métricas de clasificación y métricas estratégicas basadas en Shanten y Ukeire. &
+Alta \\
+
+OBJ-06 & No funcional &
+Desarrollar un proceso de entrenamiento reproducible y documentado que facilite la experimentación con diferentes configuraciones del modelo. &
+Media \\
+
+OBJ-07 & General &
+Analizar el estado del arte de las arquitecturas Transformer aplicadas al Riichi Mahjong y otros juegos de información imperfecta. &
+Media \\
+
+\bottomrule
+\end{tabular}
+
 \end{table}

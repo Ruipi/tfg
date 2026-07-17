@@ -181,19 +181,12 @@ si ninguna de estas piezas han salido en el juego, entonces tenemos un \textit{U
 El \textit{Shanten} se define por el número de turnos que hace mejorar la mano para llegar a \textit{Tenpai}. Un \textit{Shanten} de $0$ indica que la mano está en \textit{Tenpai} (falta solo una pieza para ganar), igualmente, una mano en 1-\textit{Shanten} indica que falta una pieza para llegar a \textit{Tenpai} y así por delante. Por lo tanto, queremos minimizar el \textit{Shanten} en cada turno, ya que esto nos acerca a ganar la mano. El \textit{Tenpai} también puede ser definido como el estado de la mano en el que se está a una pieza de ganar, es decir, cuando el \textit{Shanten} es $0$.
 
 
-\subsection{Transformers}
+\subsection{Arquitectura Transformer}
 \label{subsec:transformer}
 
-Un Transformer es una arquitectura de Deep Learning basado en los mecanismos de \textit{multi-head self-attention}\cite{vaswani2017attention}, siendo variaciones amplamente adoptado en la creación de \textit{LLMs (Large Language Models)} como Chat GPT (\textit{Generative Pre-Trained \textbf{Transformer}}).
+Los Transformers son una arquitectura de Deep Learning basada en mecanismos de \textit{self-attention}, introducida por Vaswani et al. en el trabajo \textit{Attention Is All You Need}\cite{vaswani2017attention}. A diferencia de arquitecturas recurrentes anteriores, los Transformers permiten procesar todos los elementos de una secuencia de forma simultánea, aprendiendo automáticamente las relaciones existentes entre ellos mediante el mecanismo de atención.
 
-
-La arquitectura original de un Transformer es la que podemos ver a continuación en la Figura \ref{fig:TransformerArchitecture}, obtenida del Paper \textbf{Attention Is All You Need}\cite{vaswani2017attention}.
-
-
-Normalmente, un Transformer es compuesto por una  estructura de un codificador y un decodificador. El codificador se encarga de mapear una entrada compuesta por una secuencia de símbolos a una secuencia de representaciones continuas. Por su vez, el decodificador se encarga de generar una salida compuesta de otra secuencia de símbolos. El modelo se retroalimenta de cada resultado generado más los anteriores para generar el proximo símbolo.
-
-
-No obstante, un transformer encoder-decoder es computacionalmente intensivo\cite{tam2025encoders}, por lo que existen otras arquitecturas como \textbf{BERT} (\textit{Bidirectional encoder representations from transformers}) que solucionan este problema al crear una arquitectura con solo el codificador\cite{DBLP:journals/corr/abs-1810-04805}, como podemos ver en la figura \ref{fig:BERTvsGPT}, utilizado en casos en el que no es necesário generar una secuencia de tokens y, además, el contexto de los tokens no se importa con unidireccionalidad de la secuencia del texto y permite un ajuste de pesos en la fase de \textit{multi-head self-attention} de forma bidireccional. Esta arquitectura es muy útil para nuestro modelo, ya que la entrada es una serie de \textit{Tokens} de un estado de juego del cual la posicion secuencial no es importante para el significado contextual del estado de juego.
+La arquitectura original está formada por un codificador (\textit{encoder}) y un decodificador (\textit{decoder}), como se muestra en la Figura \ref{fig:TransformerArchitecture}. Sin embargo, en tareas donde únicamente es necesario comprender una secuencia de entrada, es habitual emplear únicamente el codificador, tal y como hacen modelos como BERT\cite{DBLP:journals/corr/abs-1810-04805} como podemos ver en la Figura \ref{fig:BERTvsGPT}.
 
 \begin{figure}[H]
     \centering
@@ -202,18 +195,27 @@ No obstante, un transformer encoder-decoder es computacionalmente intensivo\cite
     \label{fig:TransformerArchitecture}
 \end{figure}
 
+Esta aproximación resulta especialmente adecuada para este trabajo, ya que el objetivo no consiste en generar texto, sino en analizar el estado completo de una partida de Riichi Mahjong y predecir la acción de descarte más adecuada. El modelo propuesto recibe como entrada una secuencia de tokens que representan el estado del juego y aprende las relaciones existentes entre ellos para estimar la probabilidad de cada posible acción.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{figures/BERT_and_GPT2.png}
-    \caption{Arquiectura BERT (izquierda) vs Arquitectura GPT}
-    \label{fig:BERTvsGPT}
-\end{figure}
+\begin{figure}[H] \centering \includegraphics[width=0.8\textwidth]{figures/BERT_and_GPT2.png} \caption{Arquiectura BERT (izquierda) vs Arquitectura GPT} \label{fig:BERTvsGPT} \end{figure}
 
+\subsubsection{Tokens}
 
-\subsection{Aprendizaje por Imitación}
+Los Transformers no procesan directamente la información original de un problema, sino una secuencia de elementos discretos denominados \textit{tokens}. En procesamiento del lenguaje natural, un token suele corresponder a una palabra o parte de una palabra. Sin embargo, en otros dominios el concepto de token puede adaptarse para representar cualquier unidad elemental de información.
 
-El aprendizaje por imitación es un tipo de aprendizaje para máquinas que se basa en copiar comportamientos humanos a partir de una cantidad de datos suficientemente grande que permita a la máquina extraer los patrones de la tarea\cite{hussein2017imitation}.
+En este proyecto, un token representa un aspecto específico del estado de una partida de Riichi Mahjong, como una ficha de la mano, un descarte, un \textit{meld}, el viento del jugador o el número de fichas restantes. De este modo, el estado completo del juego se transforma en una secuencia estructurada de tokens que puede ser procesada por un Transformer.
 
 
-Este tipo de aprendizaje es muy comunmente utilizado para que la máquina aprenda a jugar, debido a que se pueden conseguir muchos datos de estados de juego que permiten que una máqina consiga extraer as informaciones como reglas del juego, estrátegia, decisiones estilisticas, etc.
+\subsubsection{Embeddings}
+
+Los modelos Transformer requieren que cada token sea representado mediante un vector numérico de dimensión fija antes de ser procesado por la red neuronal. Esta representación continua recibe el nombre de \textit{embedding}.
+
+Durante el entrenamiento, el modelo aprende automáticamente un embedding para cada tipo de token, de forma que aquellos con significado o función similar tienden a situarse próximos entre sí en el espacio vectorial. Esta representación permite capturar relaciones semánticas entre los distintos elementos del estado del juego.
+
+\subsubsection{Aprendizaje por Imitación}
+
+El aprendizaje por imitación (\textit{Imitation Learning}) consiste en entrenar un modelo para reproducir las decisiones tomadas por un experto a partir de ejemplos previamente observados\cite{hussein2017imitation}. En lugar de descubrir una estrategia mediante interacción con el entorno, como ocurre en el aprendizaje por refuerzo, el modelo aprende directamente una función que aproxima el comportamiento del experto.
+
+En el ámbito de los juegos de estrategia, este enfoque permite entrenar modelos utilizando grandes conjuntos de partidas reales, facilitando el aprendizaje de reglas, patrones tácticos y principios estratégicos implícitos en las decisiones de jugadores experimentados.
+
+En este proyecto se emplea aprendizaje por imitación utilizando aproximadamente 500.000 estados de juego obtenidos de partidas reales de alto nivel de la plataforma Tenhou.net. El objetivo del modelo consiste en predecir el descarte realizado por el jugador experto para un estado concreto de la partida.
