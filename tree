@@ -1,0 +1,189 @@
+.
+├── checkpoints
+│   ├── baseline_transformer
+│   │   ├── epoch_10.pt
+│   │   ├── epoch_11.pt
+│   │   ├── epoch_12.pt
+│   │   ├── epoch_13.pt
+│   │   ├── epoch_14.pt
+│   │   ├── epoch_15.pt
+│   │   ├── epoch_1.pt
+│   │   ├── epoch_2.pt
+│   │   ├── epoch_3.pt
+│   │   ├── epoch_4.pt
+│   │   ├── epoch_5.pt
+│   │   ├── epoch_6.pt
+│   │   ├── epoch_7.pt
+│   │   ├── epoch_8.pt
+│   │   └── epoch_9.pt
+│   ├── strategic_100k
+│   │   └── strategic_baseline.pt
+│   └── strategic_500k
+│       ├── epoch_10.pt
+│       ├── epoch_11.pt
+│       ├── epoch_12.pt
+│       ├── epoch_13.pt
+│       ├── epoch_14.pt
+│       ├── epoch_15.pt
+│       ├── epoch_1.pt
+│       ├── epoch_2.pt
+│       ├── epoch_3.pt
+│       ├── epoch_4.pt
+│       ├── epoch_5.pt
+│       ├── epoch_6.pt
+│       ├── epoch_7.pt
+│       ├── epoch_8.pt
+│       └── epoch_9.pt
+├── configs
+├── data
+│   ├── chi
+│   ├── discard
+│   │   ├── full.db
+│   │   ├── strategic.db
+│   │   └── temporal.db
+│   ├── interim
+│   ├── pon
+│   ├── processed
+│   ├── raw
+│   │   ├── archive.zip
+│   │   └── datasets_positive.db
+│   └── riichi
+├── environment.yml
+├── memoria
+│   ├── bibliography.bib
+│   ├── figures
+│   │   ├── 01_accuracy_curves.png
+│   │   ├── 01_classificacion_estrategica.png
+│   │   ├── 01_conf_dist_by_cat.png
+│   │   ├── 01_conf_dist_strat.png
+│   │   ├── 01_exactvstrategic.png
+│   │   ├── 01_loss_curves.png
+│   │   ├── 01_model_confidence.png
+│   │   ├── 01_strategic_mistakes.png
+│   │   ├── 01_top_k_accuracy.png
+│   │   ├── 02_confidence_by_category.png
+│   │   ├── 02_confidence_dist.png
+│   │   ├── 02_exatvstrategic.png
+│   │   ├── 02_model_confidence.png
+│   │   ├── 02_strategic_mistakes.png
+│   │   ├── 02_training_metrics.png
+│   │   ├── acciones_validas_dist.png
+│   │   ├── BERT_and_GPT2.png
+│   │   ├── comparativa_categorias_estrategicas.png
+│   │   ├── comparativa_exact_vs_strat.png
+│   │   ├── distribucion_acciones.png
+│   │   ├── Model Architecture.png
+│   │   ├── mostcommondiscarded.png
+│   │   ├── Transformer,_full_architecture.png
+│   │   └── usal_logo.png
+│   ├── frontmatter
+│   │   ├── abstract_en.tex
+│   │   ├── abstract_es.tex
+│   │   ├── acknowledgements.tex
+│   │   └── cover.tex
+│   ├── main.aux
+│   ├── main.bbl
+│   ├── main.bbl-SAVE-ERROR
+│   ├── main.bcf
+│   ├── main.blg
+│   ├── main.lof
+│   ├── main.log
+│   ├── main.lot
+│   ├── main.out
+│   ├── main.pdf
+│   ├── main.run.xml
+│   ├── main.synctex.gz
+│   ├── main.tex
+│   ├── main.toc
+│   ├── sections
+│   │   ├── 01_introduccion.tex
+│   │   ├── 02_objetivos.tex
+│   │   ├── 03_teoria.tex
+│   │   ├── 04_estado_arte.tex
+│   │   ├── 05_herramientas.tex
+│   │   ├── 06_desarrollo.tex
+│   │   ├── 07_resultados.tex
+│   │   ├── 08_conclusiones.tex
+│   │   └── appendix_glossario.tex
+│   └── tables
+├── notebooks
+│   ├── 00_index.md
+│   ├── 01_eda.ipynb
+│   ├── 02_representation_design.ipynb
+│   ├── 03_model_baselines.ipynb
+│   ├── 04_large_scale_training.ipynb
+│   ├── 05_policy_analysis.ipynb
+│   ├── 06_large_scale_policy_analysis copy.ipynb
+│   ├── 07_strategic_dataset_training.ipynb
+│   ├── 08_validation_analysis_100k.ipynb
+│   ├── 09_validation_analysis_500k.ipynb
+│   └── 10_model_comparison.ipynb
+├── README.md
+├── reports
+│   ├── 100k
+│   │   ├── strategic_validation_analysis_100k.csv
+│   │   ├── strategic_validation_analysis.csv
+│   │   └── training_history.csv
+│   ├── 500k
+│   │   ├── strategic_validation_analysis_500k.csv
+│   │   └── strategic_validation_analysis_500k_epoch_15.csv
+│   ├── figures
+│   │   ├── 100k
+│   │   ├── 500k
+│   │   ├── strategic_accuracy_500k_15.png
+│   │   ├── strategic_loss_500k_15.png
+│   │   └── strategic_metrics_500k_15.png
+│   ├── strategic_validation_analysis_100k.csv
+│   └── tables
+│       ├── 100k_distribution.csv
+│       ├── 100k_results.csv
+│       ├── 100k_summary.csv
+│       ├── 500k_distribution.csv
+│       ├── 500k_distribution_epoch_15.csv
+│       ├── 500k_results.csv
+│       ├── 500k_results_epoch_15.csv
+│       ├── 500k_summary.csv
+│       └── 500k_summary_epoch_15.csv
+├── requirements.txt
+├── src
+│   ├── analysis
+│   │   ├── error_analysis.py
+│   │   ├── __pycache__
+│   │   ├── shanten.py
+│   │   └── ukeire.py
+│   ├── configs
+│   │   └── base_config.yaml
+│   ├── data
+│   │   ├── collator.py
+│   │   ├── dataset.py
+│   │   ├── process_discard_dataset.py
+│   │   ├── __pycache__
+│   │   └── tokenizer.py
+│   ├── features
+│   │   ├── __pycache__
+│   │   ├── state_representation.py
+│   │   ├── tensorization.py
+│   │   └── token_definitions.py
+│   ├── models
+│   │   ├── embeddings.py
+│   │   ├── __pycache__
+│   │   └── transformer_model.py
+│   ├── training
+│   │   ├── checkpointing.py
+│   │   ├── evaluate.py
+│   │   ├── metrics.py
+│   │   ├── __pycache__
+│   │   └── train_loop.py
+│   └── utils
+│       ├── action_decoder.py
+│       ├── constants.py
+│       ├── meld_decoder.py
+│       ├── __pycache__
+│       ├── state_decoder.py
+│       ├── state_renderer.py
+│       ├── tile_decoder.py
+│       └── tile_mapping.py
+├── test.py
+└── tree
+
+41 directories, 146 files
