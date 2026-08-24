@@ -10,7 +10,7 @@ La base de datos filtrada contiene un total de 552.563 estados con más de una o
 
 Esta separación garantiza que las filas evaluadas no fueron utilizadas durante el entrenamiento de ninguno de los dos modelos. No obstante, el formato disponible no proporciona un identificador de partida. Por este motivo, la división se realizó según la posición de los estados en la base de datos y no fue posible garantizar que todos los estados pertenecientes a una misma partida quedasen en una única partición. Esta circunstancia debe considerarse una limitación del procedimiento de evaluación.
 
-Los dos checkpoints fueron evaluados sobre exactamente los mismos 52.563 estados, manteniendo sin modificaciones la tokenización, la representación del estado, la arquitectura y el conjunto de acciones utilizado durante el entrenamiento. La inferencia se realizó mediante \texttt{torch.inference\_mode()}, que evita almacenar la información necesaria para el cálculo de gradientes, reduciendo el consumo de memoria sin alterar las predicciones obtenidas.
+Los dos checkpoints fueron evaluados sobre exactamente los mismos 52.563 estados, manteniendo sin modificaciones la tokenización, la representación del estado, la arquitectura y el conjunto de acciones utilizado durante el entrenamiento. La inferencia se realizó mediante \texttt{torch.inference\_mode()}, que evita almacenar la información necesaria para el cálculo de gradientes, reduciendo el consumo de memoria sin alterar las predicciones obtenidas. El procedimiento necesario para volver a generar las tablas y figuras se recoge en el Anexo V, Manual de Reproducibilidad.
 
 \subsection{Métricas predictivas}
 
