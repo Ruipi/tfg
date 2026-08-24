@@ -1,6 +1,6 @@
 \section{Resultados}
 
-En esta sección se presentan los resultados obtenidos por los dos modelos desarrollados. El primer modelo fue entrenado utilizando los primeros 100.000 estados de la base de datos filtrada, mientras que el segundo utilizó los primeros 500.000 estados. Ambos modelos comparten la misma arquitectura Transformer y la misma representación del estado, por lo que la principal diferencia experimental entre ellos es el volumen de datos empleado durante el entrenamiento.
+En esta sección se presentan los resultados obtenidos por los dos checkpoints conservados, identificados como 100k y 500k. El segundo fue entrenado utilizando los primeros 500.000 estados de la base de datos filtrada. Del checkpoint 100k se conserva el estado del modelo, pero no un registro completo de la ejecución ni los metadatos del optimizador y de la época. Por tanto, sus predicciones pueden reproducirse, aunque no es posible reconstruir íntegramente aquel entrenamiento. Ambos checkpoints comparten la misma arquitectura Transformer y la misma representación de entrada; la denominación 100k se mantiene como identificador del experimento original.
 
 Las métricas registradas durante el entrenamiento permiten analizar el proceso de optimización, pero no constituyen una estimación independiente de la capacidad de generalización. Para obtener una comparación final reproducible, ambos modelos fueron evaluados sobre un mismo conjunto de datos reservado que no había sido utilizado para entrenar ninguno de los dos checkpoints.
 
@@ -44,7 +44,7 @@ La evaluación convencional utiliza la pérdida de entropía cruzada y las preci
 
 El aumento del conjunto de entrenamiento produce una mejora consistente en todas las métricas predictivas. La precisión top-1 aumenta del 55,81\% al 65,64\%, lo que supone una diferencia de 9,83 puntos porcentuales. La precisión top-3 pasa del 83,37\% al 92,47\%, mientras que la precisión top-5 aumenta del 91,25\% al 97,71\%. Paralelamente, la pérdida disminuye de 1,3533 a 0,9440.
 
-Estos resultados muestran que el modelo entrenado con 500.000 estados no solo reproduce con mayor frecuencia el descarte observado, sino que también asigna puntuaciones elevadas a la decisión experta con mayor regularidad. La mejora se observa sobre datos reservados y no únicamente en las métricas registradas durante el entrenamiento.
+Estos resultados muestran que el modelo entrenado con 500.000 estados no solo reproduce con mayor frecuencia el descarte observado, sino que también sitúa esa acción entre sus primeras opciones con mayor regularidad. La mejora se observa sobre datos reservados y no únicamente en las métricas registradas durante el entrenamiento.
 
 \subsection{Evaluación estratégica}
 
@@ -90,15 +90,15 @@ La precisión estratégica se define como la proporción de decisiones incluidas
     \label{fig:holdout_category_distribution}
 \end{figure}
 
-La precisión estratégica del modelo entrenado con 100.000 estados es del 88,97\%, frente al 94,01\% alcanzado por el modelo entrenado con 500.000 estados. La diferencia entre ambos modelos es, por tanto, de 5,04 puntos porcentuales.
+La precisión estratégica del checkpoint 100k es del 88,97\%, frente al 94,01\% alcanzado por el modelo entrenado con 500.000 estados. La diferencia entre ambos modelos es, por tanto, de 5,04 puntos porcentuales.
 
 La mejora más relevante se observa en las decisiones que empeoran el Shanten. Estas representan el 5,03\% de las predicciones del primer modelo y solamente el 1,59\% de las predicciones del segundo. También disminuyen las decisiones clasificadas como \textit{Ukeire loss}, que pasan del 6,00\% al 4,39\%.
 
-La diferencia media de Ukeire, calculada como el Ukeire del descarte observado menos el Ukeire del descarte predicho, pasa de $-0,3695$ para el modelo de 100.000 estados a $0,1592$ para el modelo de 500.000 estados. Un valor negativo indica que, en promedio, el descarte predicho conserva ligeramente más fichas útiles que el descarte observado; un valor positivo indica lo contrario. No obstante, esta media debe interpretarse conjuntamente con el Shanten, puesto que una mejora de Ukeire no compensa necesariamente una pérdida de Shanten.
+La diferencia media de Ukeire, calculada como el Ukeire del descarte observado menos el Ukeire del descarte predicho, pasa de $-0,3695$ para el checkpoint 100k a $0,1592$ para el modelo de 500.000 estados. Un valor negativo indica que, en promedio, el descarte predicho conserva ligeramente más fichas útiles que el descarte observado; un valor positivo indica lo contrario. No obstante, esta media debe interpretarse conjuntamente con el Shanten, puesto que una mejora de Ukeire no compensa necesariamente una pérdida de Shanten.
 
 \subsection{Confianza de las predicciones}
 
-La confianza media de la acción seleccionada es del 62,83\% para el modelo entrenado con 100.000 estados y del 68,59\% para el modelo entrenado con 500.000 estados. Esta diferencia muestra que el segundo modelo concentra una mayor proporción de probabilidad en su primera opción.
+La confianza media de la acción seleccionada es del 62,83\% para el checkpoint 100k y del 68,59\% para el modelo entrenado con 500.000 estados. Esta diferencia muestra que el segundo modelo concentra una mayor proporción de probabilidad en su primera opción.
 
 \begin{figure}[H]
     \centering

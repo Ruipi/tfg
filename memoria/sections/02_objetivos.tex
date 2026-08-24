@@ -1,10 +1,6 @@
 \section{Objetivos}
 
-El objetivo principal de este trabajo es conseguir desarrollar
-una IA de Mahjong mediante la tecnología moderna de Transformers,
-en contraste con los enfoques de otras IAs como Suphx\cite{li2020suphx} basado en 
-Redes Convolucionales. Presentando los beneficios y limitaciones de 
-el uso de los Transformers para juegos de información imperfecta.
+El objetivo principal de este trabajo es estudiar la aplicación de una arquitectura Transformer a la predicción de descartes de Riichi Mahjong. Frente a aproximaciones espaciales como la empleada por Suphx\cite{li2020suphx}, se utiliza una representación secuencial basada en tokens y se analizan sus posibilidades y limitaciones dentro del alcance del proyecto.
 
 Nos planteamos los siguientes objetivos:
 
@@ -19,11 +15,11 @@ Nos planteamos los siguientes objetivos:
 \midrule
 
 OBJ-01 & General &
-Desarrollar un modelo basado en Transformers capaz de predecir el descarte realizado por un jugador experto de Riichi Mahjong. &
+Desarrollar un modelo basado en Transformers capaz de predecir el descarte observado en estados de Riichi Mahjong. &
 Alta \\
 
 OBJ-02 & Funcional &
-Diseñar e implementar un parser que reconstruya el estado completo de una partida a partir del conjunto de datos de Tenhou. &
+Diseñar e implementar un proceso que normalice las instantáneas del dataset en una representación canónica adecuada para el modelo. &
 Alta \\
 
 OBJ-03 & Funcional &
@@ -43,7 +39,7 @@ Desarrollar un proceso de entrenamiento reproducible y documentado que facilite 
 Media \\
 
 OBJ-07 & General &
-Analizar el estado del arte de las arquitecturas Transformer aplicadas al Riichi Mahjong y otros juegos de información imperfecta. &
+Analizar trabajos relevantes sobre Inteligencia Artificial aplicada al Mahjong y representaciones basadas en Transformers. &
 Media \\
 
 \bottomrule

@@ -1,0 +1,57 @@
+\section{Glosario}
+
+Este glosario recoge los términos japoneses e ingleses empleados con mayor frecuencia. En los términos japoneses se incluye la grafía habitual en japonés y su romanización.
+
+\subsection{Términos de Riichi Mahjong}
+
+\begin{description}[style=nextline,leftmargin=4.2cm]
+    \item[Riichi Mahjong --- {\japanesefont リーチ麻雀} (rīchi mājan)] Variante japonesa del Mahjong empleada en este trabajo.
+    \item[Riichi --- {\japanesefont 立直／リーチ} (rīchi)] Declaración realizada cuando una mano cerrada queda en Tenpai, acompañada del depósito de 1.000 puntos.
+    \item[Shanten --- {\japanesefont 向聴数／シャンテン数} (shanten-sū)] Distancia estructural de una mano respecto de Tenpai. Un valor menor indica que la mano está más cerca de completarse.
+    \item[Tenpai --- {\japanesefont 聴牌／テンパイ} (tenpai)] Estado en el que falta una sola ficha válida para completar la mano.
+    \item[Ukeire --- {\japanesefont 受け入れ／ウケイレ} (ukeire)] Número de copias todavía disponibles de las fichas que mejoran el Shanten de la mano.
+    \item[Dora --- {\japanesefont ドラ} (dora)] Ficha que aporta valor adicional a una mano ganadora, determinada a partir de un indicador.
+    \item[Aka Dora --- {\japanesefont 赤ドラ} (aka dora)] Cinco rojo que cuenta como Dora.
+    \item[Tsumo --- {\japanesefont 自摸／ツモ} (tsumo)] Robo de una ficha; también, victoria obtenida con una ficha robada por el propio jugador.
+    \item[Tsumogiri --- {\japanesefont ツモ切り} (tsumogiri)] Descarte inmediato de la misma ficha que se acaba de robar.
+    \item[Ron --- {\japanesefont ロン} (ron)] Victoria conseguida utilizando la ficha descartada por otro jugador.
+    \item[Chi --- {\japanesefont チー} (chī)] Llamada que forma una secuencia con el descarte del jugador situado a la izquierda.
+    \item[Pon --- {\japanesefont ポン} (pon)] Llamada que forma un trío con una ficha descartada por otro jugador.
+    \item[Kan --- {\japanesefont 槓／カン} (kan)] Grupo de cuatro fichas idénticas. Puede ser cerrado, abierto o ampliado.
+    \item[Ankan --- {\japanesefont 暗槓} (ankan)] Kan cerrado formado con cuatro fichas propias.
+    \item[Daiminkan --- {\japanesefont 大明槓} (daiminkan)] Kan abierto completado mediante el descarte de otro jugador.
+    \item[Shouminkan o Kakan --- {\japanesefont 小明槓／加槓} (shōminkan/kakan)] Ampliación de un Pon abierto al añadir la cuarta ficha.
+    \item[Mentsu --- {\japanesefont 面子} (mentsu)] Grupo que forma parte de una mano: secuencia, trío o Kan.
+    \item[Fūro --- {\japanesefont 副露} (fūro)] Grupo expuesto mediante una llamada a una ficha de otro jugador.
+    \item[Yaku --- {\japanesefont 役} (yaku)] Patrón o condición que concede valor y permite que una mano pueda ganar.
+    \item[Furiten --- {\japanesefont 振聴／フリテン} (furiten)] Situación que impide ganar por Ron sobre las esperas afectadas, aunque todavía puede ser posible ganar por Tsumo.
+    \item[Honba --- {\japanesefont 本場} (honba)] Contador de rondas consecutivas que incrementa los pagos de la mano.
+    \item[Kyūshukyūhai --- {\japanesefont 九種九牌} (kyūshukyūhai)] Opción de abortar la mano inicial cuando se cumplen las condiciones de fichas terminales y de honor distintas.
+    \item[Chankan --- {\japanesefont 槍槓} (chankan)] Victoria al reclamar la ficha con la que otro jugador intenta ampliar un Kan.
+    \item[Suji --- {\japanesefont 筋} (suji)] Heurística defensiva basada en las relaciones entre esperas de secuencia.
+    \item[Kabe --- {\japanesefont 壁} (kabe)] Heurística defensiva que aprovecha las fichas visibles para descartar ciertas esperas posibles.
+    \item[Genbutsu --- {\japanesefont 現物} (genbutsu)] Ficha ya descartada por un jugador en Riichi y, por ello, segura contra su Ron mientras se mantenga esa situación.
+    \item[Ura-suji --- {\japanesefont 裏筋} (ura-suji)] Patrón defensivo relacionado con posibles esperas situadas alrededor de un descarte.
+\end{description}
+
+\subsection{Términos técnicos en inglés}
+
+\begin{description}[style=nextline,leftmargin=4.2cm]
+    \item[Accuracy] Exactitud: proporción de predicciones que cumplen el criterio considerado correcto.
+    \item[Batch] Lote de muestras procesadas conjuntamente durante el entrenamiento o la evaluación.
+    \item[Checkpoint] Fichero que conserva los parámetros de un modelo en un momento determinado.
+    \item[Dataset] Conjunto de datos utilizado para el entrenamiento o la evaluación.
+    \item[Dropout] Técnica de regularización que desactiva aleatoriamente parte de las activaciones durante el entrenamiento.
+    \item[Embedding] Representación vectorial aprendida de un identificador discreto.
+    \item[Encoder] Componente que transforma una secuencia de entrada en representaciones contextuales.
+    \item[Feed-forward] Red neuronal aplicada de forma independiente a cada posición dentro de una capa Transformer.
+    \item[Holdout] Conjunto reservado que no se utiliza para entrenar el modelo y se emplea en la evaluación final.
+    \item[Logit] Puntuación no normalizada producida por el modelo antes de aplicar una distribución de probabilidad.
+    \item[Mask] Máscara que indica qué posiciones deben atenderse o ignorarse durante el procesamiento.
+    \item[Policy head] Capa de salida que asigna una puntuación a cada acción candidata.
+    \item[Self-attention] Mecanismo que relaciona cada elemento de una secuencia con los demás elementos de esa misma secuencia.
+    \item[Softmax] Función que transforma un conjunto de logits en una distribución de probabilidad.
+    \item[Token] Unidad discreta utilizada para representar una parte de la entrada del modelo.
+    \item[Top-k accuracy] Proporción de ejemplos en los que la acción observada aparece entre las $k$ predicciones con mayor puntuación.
+    \item[Transformer] Arquitectura neuronal basada principalmente en mecanismos de atención.
+\end{description}

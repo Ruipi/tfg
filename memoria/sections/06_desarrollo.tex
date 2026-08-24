@@ -39,7 +39,7 @@ Y a partir de ellos, se analizaron los siguientes datos.
   \label{fig:dist_acciones_validas}
 \end{figure}
 
-En este gráfico podemos observar un desbalance de acciones, no obstante, se observó que este desbalance es fiel a la realidad, ya que en juegos de alto nivel la cantidad de acciones que abren la mano muy raramente ocurre, y la cantidad de Kan, además de ser baja porque las probabilidades de conseguir las 4 copias de una ficha en el juego es baja, también es un movimiento de mucho riesgo, por lo que eso eplica las pocas ocurrencias en la distribución. En conclusión, apesar de este desbalance que se tendrá que llevar en cuenta para los modelos a parte del descarte, en general es correcto que el modelo se entrene sobre estas cantidades inicialmente. Sin embargo, nuestro modelo actualmente solo está entrenado sobre la acción de Descartes, siendo las otras acciones una implementación futura.
+En este gráfico se observa un fuerte desequilibrio entre los tipos de acciones. Los descartes son mucho más frecuentes que las llamadas o los distintos tipos de Kan, por lo que el presente trabajo se centra exclusivamente en los estados cuya acción observada es un descarte. El tratamiento conjunto de todas las decisiones requeriría considerar este desequilibrio y queda fuera del alcance del modelo desarrollado.
 
 \subsection{Distribución de la Suma de Acciones Válidas de una Sample}
 
@@ -50,7 +50,7 @@ En este gráfico podemos observar un desbalance de acciones, no obstante, se obs
   \label{fig:discard_valid_count}
 \end{figure}
 
-Observamos que la mayor concentración ocurre en 14 acciones validas, esto ocurre debido a que en la mayor parte del tiempo, el jugador debe descartar una  pieza de 14. Luego, aparecen picos en 11, 8 y 5 acciones válidas; esto corresponde naturalmenete a estados de manos abiertas, como podemos ver en la siguiente tabla:
+La mayor concentración ocurre en 14 acciones válidas, ya que una mano cerrada dispone normalmente de 14 fichas antes del descarte. También aparecen concentraciones en 11, 8 y 5 alternativas, asociadas a manos con una, dos o tres combinaciones abiertas, respectivamente, como se resume en la siguiente tabla:
 
 \begin{table}[H]
   \centering
@@ -68,9 +68,9 @@ Observamos que la mayor concentración ocurre en 14 acciones validas, esto ocurr
   \end{tabular}
 \end{table}
 
-El 2 obtiene un número bajo debido a que jugadores de alto nivel no suelen abrir la mano hasta que resten 2 piezas de acciones posibles, ya que se busca maximizar las acciones hasta llegar a \textit{Tenpai}.
+Los estados con dos alternativas son menos frecuentes y suelen corresponder a manos con cuatro combinaciones ya formadas.
 
-Además de esto, vemos un alto número sonde solamente existe 1 acción válida. Esto se explica con \textit{Riichi}, ya qie el \textit{Riichi} bloquea la mano del jugador, permitiendo apenas descartar la pieza comprada o ganar con ella. En función de esto, consideramos limpiar el dataset de estos casos, ya que introduce mucho ruido al modelo, considerando que el jugador ya no tiene autonomia a partir del momento en que hace \textit{Riichi}.
+La base original contiene además numerosos estados con una única alternativa de descarte, situación habitual después de declarar \textit{Riichi}. Como en esos casos no existe una elección real entre varios descartes, se eliminaron para evitar que incrementasen artificialmente la precisión. La base filtrada conserva únicamente estados con más de una acción de tipo descarte.
 
 Finalmente, el número de acciones válidas restante se explica debido a posibles acciones de \textit{Riichi} con diferentes piezas. 
 
@@ -83,8 +83,7 @@ Finalmente, el número de acciones válidas restante se explica debido a posible
   \label{fig:common_discarded}
 \end{figure}
 
-En este gráfico podemos ver que las piezas con mayor frecuencia de dedscarte son los Honores (Vientos y Dragones), 
-ver Tabla \ref{tab:mahjong_tiles}, y las piezas terminales (unos y nueves), esto se debe a que estas piezas disminuyen el \textit{Ukeire}, ver \ref{seubsec:ukeire} Ukeire.
+En este gráfico se observa que las fichas descartadas con mayor frecuencia son los honores (vientos y dragones), véase la Tabla \ref{tab:mahjong_tiles}, y las fichas terminales (unos y nueves). Una posible explicación es que, en muchas configuraciones de mano, estas fichas ofrecen menos posibilidades de formar secuencias que las fichas numeradas intermedias. Esta interpretación es descriptiva y no implica que deban descartarse siempre, ya que la decisión depende del estado concreto de la partida.
 
 \subsection{Representación de un Estado}
 
@@ -135,7 +134,7 @@ Esta es la representación de un estado de mahjong dentro del Dataset:
 }
 \end{lstlisting}
 
-Donde podemos obtener las siguientes informaciones:
+De este registro se obtiene la siguiente información:
 
 \begin{table}[H]
   \centering
@@ -145,14 +144,14 @@ Donde podemos obtener las siguientes informaciones:
     \toprule
     \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
     \midrule
-    round\_wind & int & Viento de la ronda (0-3) \\
-    num\_honba & int & Número de honba (0-4) \\
+    round\_wind & int & Identificador de ronda utilizado por el dataset \\
+    num\_honba & int & Número de honba \\
     num\_riichi & int & Número de riichi's (0-3) \\
     player\_wind & int & Viento del jugador (0-3) \\
     position & int & Posición del jugador (0-3) \\
     remain\_tiles & int & Número de fichas restantes en el muro (0-70) \\
-    dora\_indicators & list[int] & Lista de indicadores de dora (0-33) \\
-    hand\_tiles & list[int] & Lista de fichas en la mano del jugador (0-33) \\
+    dora\_indicators & list[int] & Indicadores de dora en codificación Tenhou (0-135) \\
+    hand\_tiles & list[int] & Fichas de la mano en codificación Tenhou (0-135) \\
     players & dict[int, dict] & Información de los jugadores, incluyendo puntos, riichi, descartes, melds y tsumo\_giri. \\
     valid\_actions & list[dict] & Lista de acciones válidas para el jugador actual. \\
     action\_idx & int & Índice de la acción tomada por el jugador actual. \\
@@ -173,7 +172,7 @@ De estos datos, podemos aún extraer los campos de players:
     points & int & Puntos del jugador (0-50000) \\
     riichi & bool & Indica si el jugador ha declarado riichi (True/False) \\
     discards & list[int] & Lista de fichas descartadas por el jugador (0-33) \\
-    melds & list[dict] & Lista de melds del jugador, cada uno con tipo, fichas y quién contribuyó. \\
+    melds & list[dict] & Lista de combinaciones del jugador, cada una con tipo, fichas y procedencia. \\
     tsumo\_giri & list[int] & Lista indicando si cada ficha fue descartada inmediatamente después de ser robada (1) o no (0). \\
     \bottomrule
   \end{tabular}
@@ -190,7 +189,7 @@ Campos de melds:
     \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
     \midrule
     type & int & Tipo de meld (2: Pon, 3: Chii, 4: DaiMinKan, 5: ShouMinKan, 6: AnKan) \\
-    tiles & list[int] & Lista de fichas que componen el meld (0-33) \\
+    tiles & list[int] & Fichas que componen el meld en codificación Tenhou (0-135) \\
     who & list[int] & Lista indicando quién contribuyó a cada ficha del meld (-1 para fichas propias, 0-3 para otros jugadores) \\
     \bottomrule
   \end{tabular}
@@ -206,8 +205,8 @@ Y, por fin, campos de valid\_actions:
     \toprule
     \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
     \midrule
-    type & int & Tipo de acción (0: Skip, 1: Discard, 2: Chi, 3: Pon, 4: DaiMinKan, 5: ShouMinKan, 6: AnKan, 7: Riichi) \\
-    tiles & list[int] & Lista de fichas involucradas en la acción (0-33) \\
+    type & int & Tipo de acción (0: Skip, 1: Discard, 2: Chi, 3: Pon, 4: DaiMinKan, 5: ShouMinKan, 6: AnKan, 7: Riichi, 8: Ron, 9: Tsumo, 10: Kyushukyuhai, 11: Chankan) \\
+    tiles & list[int] & Fichas involucradas en la acción en codificación Tenhou (0-135) \\
     who & list[int] & Lista indicando quién realiza la acción y quién contribuye a ella (-1 para el jugador actual, 0-3 para otros jugadores) \\
     \bottomrule
   \end{tabular}
@@ -217,9 +216,9 @@ Y, por fin, campos de valid\_actions:
 \section{Arquitectura del Modelo}
 \label{sec:model-architecture}
 
-Como se explicó en la Subsección \ref{subsec:transformer}, el modelo desarrollado en este trabajo utiliza una arquitectura basada en el codificador de un Transformer. La elección de una arquitectura de tipo \textit{encoder-only} se debe a que el objetivo del sistema no consiste en generar una secuencia de salida, sino en analizar un estado completo de una partida de Riichi Mahjong y seleccionar una acción de descarte entre las opciones legales disponibles.
+Como se explicó en la Subsección \ref{subsec:transformer}, el modelo desarrollado en este trabajo utiliza una arquitectura basada en el codificador de un Transformer. La elección de una arquitectura de tipo \textit{encoder-only} se debe a que el objetivo del sistema no consiste en generar una secuencia de salida, sino en analizar la representación disponible de un estado de Riichi Mahjong y puntuar las acciones candidatas proporcionadas por el dataset.
 
-La Figura \ref{fig:model-architecture} muestra el flujo general de procesamiento, desde la reconstrucción del estado almacenado en el conjunto de datos hasta la predicción final realizada por el modelo.
+La Figura \ref{fig:model-architecture} muestra el flujo general de procesamiento, desde la normalización de la instantánea almacenada en el conjunto de datos hasta la predicción final realizada por el modelo.
 
 \begin{figure}[H]
     \centering
@@ -269,7 +268,7 @@ La Figura \ref{fig:model-architecture} muestra el flujo general de procesamiento
     };
 
     \node[process, below=of raw] (parser) {
-        \textbf{Parser y reconstrucción del estado}\\
+        \textbf{Normalización del estado}\\
         Mano, descartes, melds, dora, vientos y contexto de la ronda
     };
 
@@ -356,14 +355,14 @@ La Figura \ref{fig:model-architecture} muestra el flujo general de procesamiento
 
 Los registros del conjunto de datos no pueden utilizarse directamente como entrada de una red neuronal, ya que contienen la información de la partida en un formato estructurado que debe ser interpretado y normalizado previamente.
 
-Por este motivo, se desarrolló un parser encargado de reconstruir una representación canónica del estado de juego. Esta representación reúne la información considerada relevante para la decisión de descarte, como la mano del jugador, los descartes visibles, las combinaciones abiertas, los indicadores de Dora, los vientos de ronda y de asiento, y otros elementos asociados al contexto de la partida.
+Por este motivo, se desarrolló un proceso de normalización encargado de transformar cada instantánea del dataset en una representación canónica. Esta representación intermedia reúne la mano del jugador, los descartes visibles, las combinaciones abiertas, los indicadores de Dora, los vientos y otros elementos contextuales. No reconstruye la partida desde un registro de eventos ni recupera información oculta.
 
 
 \subsection{Tokenización del estado}
 
-Una vez reconstruido el estado, su información se transforma en una secuencia de tokens mediante un tokenizador desarrollado específicamente para este proyecto.
+Una vez normalizada la instantánea, su información se transforma en una secuencia de tokens mediante un tokenizador desarrollado específicamente para este proyecto.
 
-Cada token representa una unidad semántica del estado de juego y como se verá en la Subsección \ref{subsec:tokenization} tendremos para cada información del estado sus respectivos tokens. Por ejemplo, pueden emplearse tokens para codificar una ficha presente en la mano, un descarte realizado por un jugador, una combinación abierta, un indicador de Dora o el viento correspondiente al jugador.
+Cada token representa una unidad semántica del estado de juego. Se crean tokens para la mano, los descartes, las combinaciones, las acciones candidatas y ciertos elementos contextuales. Sin embargo, como se detalla más adelante, la implementación final solo tensoriza una parte de los metadatos almacenados en estos objetos intermedios.
 
 Esta representación simbólica se eligió como alternativa a las codificaciones espaciales empleadas por modelos basados en redes convolucionales. En lugar de transformar el estado del Mahjong en una estructura bidimensional similar a una imagen, la tokenización permite representar sus componentes de forma explícita y compacta.
 
@@ -381,15 +380,15 @@ La salida de esta etapa es una matriz de vectores, donde cada fila corresponde a
 
 La secuencia de embeddings se introduce posteriormente en un Transformer Encoder. Este bloque está compuesto por varias capas que combinan mecanismos de \textit{multi-head self-attention}, redes neuronales \textit{feed-forward}, conexiones residuales y normalización.
 
-El mecanismo de autoatención permite que cada elemento de la entrada tenga en cuenta la información proporcionada por el resto de tokens. Esta propiedad resulta especialmente útil en Riichi Mahjong, ya que la conveniencia de descartar una ficha no depende únicamente de la composición de la mano, sino también de otros factores, como los descartes visibles, las combinaciones abiertas, los indicadores de Dora o el progreso de la ronda.
+El mecanismo de autoatención permite que cada elemento de la entrada tenga en cuenta la información proporcionada por el resto de tokens. En la implementación final, el modelo relaciona principalmente las fichas de la mano, los descartes visibles, el tipo y propietario de las combinaciones y las acciones candidatas. Otros campos contextuales permanecen en la representación intermedia, pero no se incorporan aún al tensor de entrada.
 
-Por tanto, la salida del codificador no representa cada token de forma aislada, sino contextualizada respecto al estado completo de la partida.
+Por tanto, la salida del codificador no representa cada token de forma aislada, sino contextualizada respecto a la información que efectivamente recibe el modelo.
 
 \subsection{Cabeza de política y acciones legales}
 
 La representación contextual producida por el Transformer se utiliza para asignar una puntuación a las acciones de descarte disponibles. Esta parte final del modelo recibe el nombre de cabeza de política o \textit{policy head}.
 
-Para cada muestra se construye el conjunto de acciones legales a partir de las fichas que el jugador puede descartar en dicho estado. La cabeza de política calcula un valor o \textit{logit} para cada una de estas acciones candidatas. Como el número de acciones legales puede variar entre estados, la salida del modelo también puede presentar una longitud diferente para cada muestra.
+Para cada muestra se utiliza el conjunto de acciones candidatas proporcionado por el dataset. Aunque la acción objetivo de todos los registros de la tabla \textit{Discard} es un descarte, algunos estados incluyen además candidatos de Riichi o Kan. La cabeza de política calcula un valor o \textit{logit} para cada candidato. Como su número puede variar entre estados, la salida del modelo también presenta una longitud variable.
 
 La acción predicha corresponde al descarte con mayor puntuación:
 
@@ -399,13 +398,13 @@ La acción predicha corresponde al descarte con mayor puntuación:
 
 donde $A(s)$ representa el conjunto de acciones candidatas para el estado $s$ y $z_a$ el logit asignado por la cabeza de política a la acción $a$.
 
-Durante el entrenamiento, los logits generados por el modelo se comparan con la acción realizada por el jugador experto mediante una función de pérdida de entropía cruzada (\textit{Cross-Entropy Loss})\cite{goodfellow2016deep}. Esta función aplica internamente una normalización Softmax sobre los logits para obtener una distribución de probabilidad y penaliza aquellas predicciones que asignan una baja probabilidad a la acción correcta. Como consecuencia, el modelo aprende progresivamente a incrementar la puntuación de las decisiones observadas en el conjunto de entrenamiento.
+Durante el entrenamiento, los logits generados por el modelo se comparan con la acción observada en el dataset mediante una función de pérdida de entropía cruzada (\textit{Cross-Entropy Loss})\cite{goodfellow2016deep}. Esta función aplica internamente una normalización Softmax sobre los logits para obtener una distribución de probabilidad y penaliza aquellas predicciones que asignan una baja probabilidad a la acción objetivo. Como consecuencia, el modelo aprende progresivamente a incrementar la puntuación de las decisiones observadas en el conjunto de entrenamiento.
 
 \subsection{Justificación de las decisiones arquitectónicas}
 
 La arquitectura fue diseñada atendiendo tanto a las características del problema como a los recursos disponibles para el desarrollo del proyecto.
 
-En primer lugar, se eligió un Transformer Encoder porque el problema se formula como una tarea de clasificación condicionada por un estado completo. No es necesario generar una secuencia ni predecir estados futuros, por lo que una arquitectura \textit{encoder-decoder} introduciría complejidad adicional sin aportar una ventaja directa para este objetivo.
+En primer lugar, se eligió un Transformer Encoder porque el problema se formula como una tarea de clasificación condicionada por una representación del estado observable. No es necesario generar una secuencia ni predecir estados futuros, por lo que una arquitectura \textit{encoder-decoder} introduciría complejidad adicional sin aportar una ventaja directa para este objetivo.
 
 En segundo lugar, la representación mediante tokens permite mantener una correspondencia clara entre los elementos del estado y la información procesada por el modelo. Esta decisión mejora la interpretabilidad del preprocesamiento y evita la necesidad de construir una representación espacial específica para redes convolucionales.
 
@@ -414,10 +413,10 @@ Finalmente, la predicción se limita a las acciones legales de cada estado. Esta
 En conjunto, la arquitectura propuesta busca alcanzar un equilibrio entre capacidad de representación, coste computacional y claridad de implementación.
 
 
-\subsection{Elecciones de Diseño de Tokenización}
+\subsection{Diseño conceptual de la tokenización}
 \label{subsec:tokenization}
 
-En primer lugar, necesitamos definir las categorias de informacion de un estado:
+Durante el diseño se definieron las siguientes categorías de información. Esta sección documenta la representación semántica intermedia y las alternativas consideradas; no todos sus campos fueron incorporados finalmente a los embeddings utilizados por los checkpoints.
 
 \begin{table}[H]
   \centering
@@ -430,7 +429,7 @@ En primer lugar, necesitamos definir las categorias de informacion de un estado:
     \hline
     Descartes & descarte 9m & Sí & Sí & Sí \\
     \hline
-    Melds & pon/chii/kan & Parcialmente  & Sí & Sí \\
+    Melds & pon/chi/kan & Parcialmente  & Sí & Sí \\
     \hline
     Acciones candidatas & descartar 5m & No & N/A & Sí
     \\
@@ -445,20 +444,20 @@ En primer lugar, necesitamos definir las categorias de informacion de un estado:
   \label{tab:catinfo}
 \end{table}
 
-Un estado de Mahjong será representado como una coleccion de tokens semánticos. Cada token representará una categoria diferente de informaciones de juego y podrá contener información de metadatos del juego.
+Un estado de Mahjong se representa como una colección de tokens semánticos. Cada token representa una categoría diferente de información de juego y puede contener metadatos asociados.
 
 A continuación veremos, para cada categoría, cuáles son los campos que tendrá el token.
 
 \subsubsection{Tokens de Mano}
 
-Piezas de la mano representarán la identidad de la pieza, una distinccion de duplicados (cuál copia de la pieza és), y un indicador de si es dora rojo.
+Las piezas de la mano representan la identidad de la pieza, una distinción entre duplicados (qué copia de la pieza es) y un indicador de si se trata de una Dora roja.
 
 \begin{table}[H]
   \centering
   \begin{tabular}{|l|l|}
   \hline
   \textbf{Campo} & \textbf{Objetivo}         \\ \hline
-  token\_type    & indetifica el token HAND    \\ \hline
+  token\_type    & identifica el token HAND    \\ \hline
   tile\_type     & pieza de Mahjong    \\ \hline
   copy\_index    & diferencia copias de piezas \\ \hline
   is\_red        & soporte de dora rojo        \\ \hline
@@ -469,22 +468,22 @@ Piezas de la mano representarán la identidad de la pieza, una distinccion de du
 
 \subsubsection{Tokens de Descarte}
 
-Los tokens de descarte represetan eventos de descartes que son públicos y ordenados, los campos de un token de descarte son los siguientes:
+Los tokens de descarte representan eventos públicos y ordenados. Los campos de un token de descarte son los siguientes:
 
 \begin{table}[H]
   \centering
   \begin{tabular}{|l|l|}
   \hline
   \textbf{Campo} & \textbf{Objetivo}         \\ \hline
-  token\_type    & indetifica el token DISCARD    \\ \hline
+  token\_type    & identifica el token DISCARD    \\ \hline
   player & jugador que ha descartado la pieza \\ \hline
   tile\_type     & pieza de Mahjong    \\ \hline
   copy\_index    & diferencia copias de piezas \\ \hline
   is\_red        & soporte de dora rojo        \\ \hline
-  is\_tsumogiri & si la pieza descartada fué una pieza imediatamente comprada \\ \hline
+  is\_tsumogiri & si la pieza descartada fue la ficha recién robada \\ \hline
   is\_riichi\_declaration & si al descartar esa pieza se declara riichi \\ \hline
-  global\_order & orden cronologico del descarte en la ronda \\ \hline
-  player\_discard\_order & index de descarte para el jugador \\ \hline
+  global\_order & orden cronológico del descarte en la ronda \\ \hline
+  player\_discard\_order & índice de descarte para el jugador \\ \hline
   \end{tabular}
   \caption{Campos de Token de Descarte}
   \label{tab:discard_token}
@@ -502,17 +501,16 @@ Los Tokens de Melds representan eventos de melds que son públicos y ordenados, 
 \textbf{Campo}  & \textbf{Objetivo}                            \\ \hline
 token\_type     & identifica el token MELD                    \\ \hline
 player          & jugador que posee el meld                   \\ \hline
-meld\_type      & chii / pon / kan                            \\ \hline
+meld\_type      & chi / pon / kan                             \\ \hline
 tile\_types     & piezas que componen el meld                 \\ \hline
-copy\_indices   & distinccion de duplicados                   \\ \hline
+copy\_indices   & distinción entre duplicados                 \\ \hline
 red\_flags      & soporte de dora rojo                        \\ \hline
 source\_players & jugadores que contribuyeron para cada pieza \\ \hline
-global\_order   & orden cronoologica de llamada               \\ \hline
+global\_order   & orden cronológico de la llamada             \\ \hline
 \end{tabular}
 \caption{Campos de Token de Melds}
 \label{tab:melds_token}
-\end{table}Message sent Undo
-1 of 4,365
+\end{table}
 
 
 \subsubsection{Tokens de Acciones}
@@ -582,9 +580,9 @@ Los Tokens de Estado de Jugadores representan información contextual de cada ju
   \label{tab:player_state_token}
 \end{table}
 
-\subsection{Diseño del Embedding}
+\subsection{Diseño conceptual del embedding}
 
-La estructura general del embedding es la siguiente:
+Inicialmente se planteó una composición de embeddings semánticos y de metadatos con la siguiente estructura general:
 
 $$\text{Embedding}(\text{token}) = 
 \text{token\_type\_embedding} +
@@ -592,18 +590,18 @@ $$\text{Embedding}(\text{token}) =
 \text{metadata\_embedding} +
 \text{positional\_embeddings} $$
 
-Tipos diferentes de tokens utilizarán diferentes embeddings a depender de su estrucura semantica.
+Los distintos tipos de tokens utilizarían diferentes embeddings en función de su estructura semántica.
 
 Cada categoría de token tendrá un embedding dedicado de tipo de token, que podrá ser uno de los siguientes: HAND, DISCARD, MELD, ACTION, GAME\_STATE o PLAYER\_STATE.
 
-A continuación, veremos la estructura de embedding para cada token semántico.
+A continuación se documentan las combinaciones consideradas para cada token semántico. Estas expresiones pertenecen al diseño conceptual; la Subsección siguiente describe la implementación que se utilizó realmente para entrenar y evaluar los modelos.
 
 \subsubsection{Embedding de Tokens de Piezas}
 
-Este Embedding codifica la identidad de la pieza, por ejmplo:
+Este embedding codifica la identidad de la pieza, por ejemplo:
 1m, 5p, east, red\_dragon. Los embeddings de piezas son compartidos entre los tokens de mano, descarte, melds y de acciones.
 
-\subsubsection{Embedding del índice de cópia}
+\subsubsection{Embedding del índice de copia}
 
 Instancias de piezas duplicadas (por ejemplo, dos 5m) se distinguen mediante un índice de copia. Este embedding permite al modelo diferenciar entre estas instancias. 
 
@@ -614,7 +612,7 @@ Este embedding codifica la identidad del jugador, por ejemplo, jugador 0, jugado
 
 \subsubsection{Embeddings Posicionales}
 
-Los embeddings posicionales preservan el orden temporal de los eventos de juego, como descartes, momento en que se realizaron melds y extensiones de treyectorias de acciones. Existen dos tipos de esquemas posicionales: orden cronologica global y orden de descarte local de jugador.
+Los embeddings posicionales preservan el orden temporal de eventos como los descartes, el momento en que se realizaron los melds y la secuencia de acciones. Se plantearon dos esquemas posicionales: el orden cronológico global y el orden local de descartes de cada jugador.
 
 \subsubsection{Embeddings de Metadatos}
 
@@ -635,7 +633,7 @@ Dónde:
   \item E\_copy distingue entre instancias duplicadas de piezas,
   \item E\_red indica si la pieza es un dora rojo.
 \end{itemize}
-  
+
 \subsubsection{Embedding de Token de Descarte}
 
 Los tokens de descarte representan eventos de descartes que son públicos y ordenados, y su embedding es definido por la siguiente estructura:
@@ -654,7 +652,7 @@ Dónde:
   \item E\_copy distingue entre instancias duplicadas de piezas,
   \item E\_red indica si la pieza es un dora rojo,
   \item E\_player identifica al jugador que ha descartado la pieza,
-  \item E\_tsumogiri indica si la pieza descartada fué una pieza inmediatamente comprada,
+  \item E\_tsumogiri indica si la ficha descartada fue la ficha recién robada,
   \item E\_riichi\_declaration indica si al descartar esa pieza se declara riichi,
   \item E\_global\_position representa el orden cronológico global del descarte,
   \item E\_local\_position representa el orden de descarte relativo al jugador.
@@ -749,3 +747,21 @@ Dónde:
   \item E\_riichi\_status indica si el jugador ha declarado riichi,
   \item E\_open\_hand indica si el jugador tiene una mano abierta.
 \end{itemize}
+
+\subsection{Tensorización y embeddings implementados}
+
+La implementación final transforma cada token en seis identificadores discretos: tipo de token, tipo de ficha, índice de copia, jugador, tipo de acción y posición absoluta dentro de la secuencia. Cada identificador dispone de una tabla de embeddings entrenable de dimensión 128. La representación de entrada se obtiene sumando los seis vectores:
+
+\begin{equation}
+E = E_{\text{tipo}} + E_{\text{ficha}} + E_{\text{copia}} + E_{\text{jugador}} + E_{\text{acción}} + E_{\text{posición}}.
+\end{equation}
+
+La información tensorizada depende de la categoría del token. Los tokens de mano incorporan el tipo y la copia física de la ficha. Los descartes incorporan tipo de ficha, copia y jugador. Los melds incorporan el jugador propietario y el tipo de llamada, mientras que las acciones candidatas incorporan el tipo de acción y la primera ficha asociada. Todos los tokens reciben, además, su tipo y su posición absoluta en la secuencia.
+
+Algunos metadatos presentes en las clases semánticas no se trasladan todavía a estos identificadores. Entre ellos se encuentran la condición de dora roja, el indicador de \textit{tsumogiri}, la declaración de Riichi asociada a un descarte, las fichas y procedencias completas de los melds, los puntos, el estado de Riichi de cada jugador, el número de honba, los depósitos de Riichi, las fichas restantes y los indicadores de Dora. En particular, los tokens \texttt{GAME\_STATE} y \texttt{PLAYER\_STATE} conservan su tipo y posición, pero sus demás atributos no se codifican en la entrada de los checkpoints evaluados.
+
+Esta diferencia entre el diseño conceptual y la versión implementada constituye una limitación de la representación actual. Su incorporación requeriría ampliar el tensorizador y volver a entrenar los modelos, por lo que se plantea como trabajo futuro y no se atribuye a los resultados presentados.
+
+\subsection{Configuración final del modelo}
+
+Los dos modelos comparados utilizan una dimensión de embedding de 128, ocho cabezas de atención, cuatro capas de Transformer Encoder, una dimensión de 512 en la red \textit{feed-forward} y un \textit{dropout} de 0,1. La cabeza de política consiste en una capa lineal que transforma el estado oculto de cada token de acción en un único logit. En total, la arquitectura contiene 867.073 parámetros entrenables.

@@ -1,6 +1,6 @@
 \section{Conceptos Teóricos}
 
-En esta sección trataremos los  conceptos teóricos a empezar por las reglas básicas \cite{riichiWikiRulesOverview} y heurísticas \cite{chiba2015riichi} de Riichi Mahjong, el objeto de este proyecto. Luego, pasaremos a la teoría de IA, aprendizaje por imitación y la arquitectura de \textit{Transformers}. 
+En esta sección se presentan los conceptos teóricos necesarios para el proyecto. En primer lugar se resumen las reglas básicas \cite{riichiWikiRulesOverview} y algunas heurísticas \cite{chiba2015riichi} de Riichi Mahjong. A continuación se introducen el aprendizaje por imitación y la arquitectura Transformer.
 
 \subsection{Reglas Básicas}
 
@@ -52,9 +52,9 @@ Categorias de piezas de Riichi Mahjong
 
 \end{table}
 
-Las piezas de caracteres, circulos y bambús se numeran del 1 al 9, y las piezas de honores son, respectivamente, \textbf{Este}, \textbf{Sur}, \textbf{Oeste} y \textbf{Norte}; y \textbf{Dragon Blanco}, \textbf{Dragon Verde} y \textbf{Dragon Rojo}. Cada una de estas piezas tienen 4 copias, por lo que en total son 136 piezas.
+Las fichas de caracteres, círculos y bambús se numeran del 1 al 9. Las fichas de honores son los cuatro vientos ---\textbf{Este}, \textbf{Sur}, \textbf{Oeste} y \textbf{Norte}--- y los tres dragones ---\textbf{Blanco}, \textbf{Verde} y \textbf{Rojo}---. Cada tipo de ficha tiene cuatro copias, por lo que el juego utiliza 136 fichas.
 
-Inicialmente se decide si el juego durará una ronda de mesa \textbf{Este} o una ronda hasta \textbf{Sur}, cada ronda de \textbf{Este} o de \textbf{Sur} tiene 4 juegos, donde la mesa obtiene ese viento, y aleatoriamente se escoge una persona para ser el \textit{Dealer}, que estará representado por la pieza del \textbf{Este} y se sentará en esa posición. Cada posición de jugadores está en un viento, como podemos ver en la siguiente imágen:
+Una partida puede disputarse hasta la ronda Este o hasta la ronda Sur. Cada vuelta contiene normalmente cuatro manos, una por cada posición del jugador Este o \textit{dealer}. Los jugadores ocupan los vientos Este, Sur, Oeste y Norte, como se muestra en la siguiente imagen:
 
 \begin{figure}[H]
 \centering
@@ -96,14 +96,14 @@ Posición relativa de los jugadores y vientos en una mesa de Riichi Mahjong.
 
 \end{figure}
 
-En el caso de que el ganador del juego sea el Este/Dealer, la partida seguirá en el mismo estagio de ronda, por ejemplo, si estamos en el Este 3 y gana el Dealer, se hace más una ronda de Este 3.
+Cuando el jugador Este gana una mano, conserva el puesto de \textit{dealer} y se repite el mismo número de ronda, incrementando el contador de honba. Dependiendo del reglamento aplicado, el Este también puede conservar el puesto después de un empate si su mano se encuentra en Tenpai.
 
-El objetivo del juego es ganar las manos mediante \label{txt:Yaku} \textit{Yaku} (combinaciones de manos que pueden ganar compuestas de 4 \textit{Melds} y un par), de forma similar al poker. Se puede ver en el Anexo 1 una lista de \textit{Yaku} oficiales.
+El objetivo es obtener puntos ganando manos válidas. Para poder ganar, la mano debe cumplir al menos un \label{txt:Yaku}\textit{yaku}, es decir, una condición de puntuación reconocida por las reglas. La estructura más habitual está formada por cuatro combinaciones y un par, aunque existen manos especiales, como Chiitoitsu o Kokushi Musou, que siguen estructuras diferentes. En el Anexo I se incluye una relación de los principales yaku.
 
 
-Cada jugador recibe 13 piezas, y su turno se basa de forma sencilla, en comprar una pieza y descartar otra, hasta que la mano se complete (si posible).
+Cada jugador recibe 13 fichas. En un turno normal roba una ficha y descarta otra hasta completar una mano válida o hasta que finaliza la mano.
 
-En general, una mano se caracteriza por 4 \textit{Melds}  \label{txt:melds} caracterizados por 3 piezas que pueden ser un trio o una secuencia y además de esos 4 \textit{Melds}, un par.
+Una mano de estructura regular está formada por cuatro \label{txt:melds}\textit{melds} o combinaciones y un par. Cada combinación puede ser una secuencia de tres fichas consecutivas del mismo palo o un trío de fichas iguales; los Kan constituyen combinaciones de cuatro fichas iguales.
 
 Al momento de completar una mano preparada para ganar (\textit{Tenpai}), el jugador puede ganar cogiendo la pieza de la compra normal, o del descarte de otro jugador. De este modo, los jugadores también deben evitar descartar la pieza que completa la mano de otro jugador, ya que pierde puntos de este modo. En resumen, las formas de ganar son las siguientes:
 
@@ -123,11 +123,11 @@ Formas de ganar en Riichi Mahjong
 \label{tab:winning-conditions}
 \end{table}
 
-El juego también dispone de una pared de piezas, donde se encuentra la llamada \textbf{Pared Muerta} (\textit{Dead Wall}) que contiene 14 piezas que nunca se verán dentro del juego, estas 14 piezas son escogidas aleaatóriamente al inicio de cada ronda. Además, esta pared muerta contiene lo que llamamos indicadores de \textit{dora}, que son piezas que indican que la siguiente pieza de la secuencia adiciona puntos a la mano ganadora. Para los vientos, el orden de secuencia para indicar el \textit{dora} es Este $\rightarrow$ Sur $\rightarrow$ Oeste $\rightarrow$ Norte $\rightarrow$ Este, y para los dragones es Rojo $\rightarrow$ Verde $\rightarrow$ Blanco $\rightarrow$ Rojo. Para las piezas de caracteres, circulos y bambús, el orden es 1 $\rightarrow$ 2 $\rightarrow$ 3 $\rightarrow$ ... $\rightarrow$ 9 $\rightarrow$ 1.
+El muro incluye una sección de 14 fichas denominada pared muerta (\textit{dead wall}). De ella se revelan los indicadores de Dora y se extraen las fichas de reemplazo asociadas a los Kan. Un indicador señala como Dora la ficha siguiente dentro de su secuencia. Para los vientos, el ciclo es $\text{Este} \rightarrow \text{Sur} \rightarrow \text{Oeste} \rightarrow \text{Norte} \rightarrow \text{Este}$; para los dragones, $\text{Blanco} \rightarrow \text{Verde} \rightarrow \text{Rojo} \rightarrow \text{Blanco}$; y para los palos numerados, $1 \rightarrow 2 \rightarrow \cdots \rightarrow 9 \rightarrow 1$.
 
-Durante el juego, un jugador tiene la opción de hacer "llamadas", estas llamadas se resumen a coger el descarte de otro jugador para completar un trio o una secuencia (uno de los \textit{Melds}), abriendo tu mano y bloqueando las piezas que forman el \textit{Meld} llamado, también se puede llamar para completar una cuadrupla, que abrirá otro indicador \textit{dora}, pudiendo aumentar el valor de tu mano o de una mano rival. Sin embargo, hacer llamadas también tiene la contra parte de que tu mano ya no es cerrada, y por lo tanto no podrás declarar \textit{Riichi} como veremos a continuación, una excepción es hacer un \textit{Kan} (cuadrupla) cerrado, esto es, completar una cuadrupla con piezas de tu mano sin haberlas descartado y sin llamar a una pieza del descarte de otro jugador, este movimiento abre las 4 piezas para que los otros jugadores las vean, no obstante, si no se coge del descarte de otro jugador, tu mano sigue cerrada, teniendo la posibilidad aún de hacer \textit{Riichi}.
+Durante el juego pueden realizarse llamadas sobre el descarte de otro jugador. Chi permite formar una secuencia, Pon forma un trío y Daiminkan forma un Kan abierto. Estas acciones abren la mano y, por tanto, impiden declarar Riichi. También es posible declarar un Ankan con cuatro fichas propias; aunque las fichas se muestran, la mano mantiene la condición de cerrada a efectos de Riichi. Cada Kan da lugar a una ficha de reemplazo y normalmente revela un indicador de Dora adicional.
 
-La regla más importante del Riichi Mahjong: hacer \textbf{\textit{Riichi}}: Cuando un jugador está en \textit{Tenpai} y tiene la mano cerrada, tiene la opción de declarar \textit{Riichi}, una apuesta de 1000 puntos a que ganará la mano. Esto bloquea la  mano del jugador y solo podrá comprar y descartar piezas sin poder modificar más su mano, siendo la única opción posible hacer \textit{Tsumo} o \textit{Ron}\ref{tab:winning-conditions}.
+Cuando un jugador se encuentra en Tenpai con una mano cerrada puede declarar \textbf{\textit{Riichi}}, depositando 1.000 puntos. Después de la declaración, normalmente debe descartar la misma ficha que roba y no puede modificar libremente la composición de la mano. Aún puede ganar mediante Tsumo o Ron y, bajo condiciones específicas que no alteren sus esperas, puede declarar determinados Ankan.
 
 Por lo tanto, podemos ver en la siguiente tabla un resumen de las acciones posibles en cada turno:
 
@@ -157,28 +157,22 @@ Acciones posibles en cada turno de Riichi Mahjong
 \label{tab:actions}
 \end{table}
 
-Una última regla importante es el concepto de \textit{furiten}, un jugador no puede ganar mediante \textit{Ron} con una pieza que ha descartado previamente en el juego, esta regla permite el juego defensivo, ya que se sabe a todo momento con cuales piezas otros jugadores \textbf{no} pueden ganar.
+Una última regla importante es el \textit{furiten}. Un jugador no puede ganar mediante Ron si alguna de las fichas que forman sus esperas aparece en su propio río de descartes. También puede existir Furiten temporal después de rechazar una oportunidad de Ron. Esta regla es relevante para el juego defensivo, aunque no permite determinar por completo la mano ni todas las esperas de los rivales.
 
 Con esto finalizamos la explicación de las reglas básicas del juego, y a continuación se explicarán los conceptos de estrategia y teoría que se utilizan para jugar el juego de forma óptima.
 
 \subsection{Heurísticas}
 
-En esta subsección se definirá dos heurísticas importantes del Mahjong, el \textit{Ukeire} y el \textit{Shanten}, que serán utilizados más aadelante como métricas de evaluación del modelo.
+En esta subsección se definen dos conceptos importantes para medir la eficiencia de una mano: el \textit{Ukeire} y el \textit{Shanten}. Ambos se utilizarán posteriormente en la evaluación del modelo.
 
 \subsubsection{Ukeire}
 \label{seubsec:ukeire}
 
-El \textit{Ukeire} nada más es que el número de piezas aceptables en cada turno para mejorar tu meld, por ejemplo, para completar un \textbf{Meld} con las dos piezas \mahjong{3p} \mahjong{5p}, se pueden aceptar las siguientes piezas:
-
-\begin{center}
-    \mahjong{2p} \mahjong{3p} \mahjong{4p} \mahjong{5p} \mahjong{6p}
-\end{center}
-
-si ninguna de estas piezas han salido en el juego, entonces tenemos un \textit{Ukeire} de $4+3+4+3+4 = 18$. Por lo tanto, queremos maximizar el \textit{Ukeire} en cada turno, ya que esto nos da más posibilidades de mejorar nuestra mano y llegar a \textit{Tenpai}.
+El \textit{Ukeire} es el número de fichas aún disponibles que reducen el Shanten de una mano. Se calcula probando cada uno de los 34 tipos de ficha y descontando las copias que ya son visibles en la mano, los descartes, los melds y los indicadores de Dora. Por ejemplo, una forma incompleta \mahjong{3p}\mahjong{5p} necesita un \mahjong{4p} para convertirse directamente en una secuencia; el número efectivo de copias dependerá de cuántos \mahjong{4p} sean ya visibles. En general, para un mismo valor de Shanten se prefiere un Ukeire mayor, porque ofrece más posibilidades de mejorar la mano.
 
 \subsubsection{Shanten}
 \label{seubsec:shanten}
-El \textit{Shanten} se define por el número de turnos que hace mejorar la mano para llegar a \textit{Tenpai}. Un \textit{Shanten} de $0$ indica que la mano está en \textit{Tenpai} (falta solo una pieza para ganar), igualmente, una mano en 1-\textit{Shanten} indica que falta una pieza para llegar a \textit{Tenpai} y así por delante. Por lo tanto, queremos minimizar el \textit{Shanten} en cada turno, ya que esto nos acerca a ganar la mano. El \textit{Tenpai} también puede ser definido como el estado de la mano en el que se está a una pieza de ganar, es decir, cuando el \textit{Shanten} es $0$.
+El \textit{Shanten} expresa la distancia estructural de una mano respecto a Tenpai. Un valor de 0 indica que la mano ya está en Tenpai y necesita una ficha válida para ganar; un valor de 1 indica que necesita una mejora para alcanzar Tenpai, y así sucesivamente. Por tanto, reducir el Shanten acerca la estructura de la mano a una situación de victoria, aunque no representa directamente el número de turnos que serán necesarios.
 
 
 \subsection{Arquitectura Transformer}
@@ -195,15 +189,15 @@ La arquitectura original está formada por un codificador (\textit{encoder}) y u
     \label{fig:TransformerArchitecture}
 \end{figure}
 
-Esta aproximación resulta especialmente adecuada para este trabajo, ya que el objetivo no consiste en generar texto, sino en analizar el estado completo de una partida de Riichi Mahjong y predecir la acción de descarte más adecuada. El modelo propuesto recibe como entrada una secuencia de tokens que representan el estado del juego y aprende las relaciones existentes entre ellos para estimar la probabilidad de cada posible acción.
+Esta aproximación resulta adecuada para este trabajo, ya que el objetivo no consiste en generar texto, sino en procesar una representación del estado observable y estimar una puntuación para cada acción candidata. El modelo recibe una secuencia de tokens y aprende relaciones entre los elementos que efectivamente se incorporan a su entrada.
 
-\begin{figure}[H] \centering \includegraphics[width=0.8\textwidth]{figures/BERT_and_GPT2.png} \caption{Arquiectura BERT (izquierda) vs Arquitectura GPT} \label{fig:BERTvsGPT} \end{figure}
+\begin{figure}[H] \centering \includegraphics[width=0.8\textwidth]{figures/BERT_and_GPT2.png} \caption{Arquitectura BERT (izquierda) frente a arquitectura GPT} \label{fig:BERTvsGPT} \end{figure}
 
 \subsubsection{Tokens}
 
 Los Transformers no procesan directamente la información original de un problema, sino una secuencia de elementos discretos denominados \textit{tokens}. En procesamiento del lenguaje natural, un token suele corresponder a una palabra o parte de una palabra. Sin embargo, en otros dominios el concepto de token puede adaptarse para representar cualquier unidad elemental de información.
 
-En este proyecto, un token representa un aspecto específico del estado de una partida de Riichi Mahjong, como una ficha de la mano, un descarte, un \textit{meld}, el viento del jugador o el número de fichas restantes. De este modo, el estado completo del juego se transforma en una secuencia estructurada de tokens que puede ser procesada por un Transformer.
+En este proyecto, un token representa un elemento específico de la instantánea disponible, como una ficha de la mano, un descarte, un meld o una acción candidata. La representación semántica intermedia contempla además información contextual, aunque no todos esos campos se incorporan a los embeddings de la implementación final.
 
 
 \subsubsection{Embeddings}
@@ -218,4 +212,4 @@ El aprendizaje por imitación (\textit{Imitation Learning}) consiste en entrenar
 
 En el ámbito de los juegos de estrategia, este enfoque permite entrenar modelos utilizando grandes conjuntos de partidas reales, facilitando el aprendizaje de reglas, patrones tácticos y principios estratégicos implícitos en las decisiones de jugadores experimentados.
 
-En este proyecto se emplea aprendizaje por imitación utilizando aproximadamente 500.000 estados de juego obtenidos de partidas reales de alto nivel de la plataforma Tenhou.net. El objetivo del modelo consiste en predecir el descarte realizado por el jugador experto para un estado concreto de la partida.
+En este proyecto se emplea aprendizaje por imitación utilizando estados de juego obtenidos de partidas registradas en Tenhou.net. El objetivo del modelo consiste en aproximar el descarte observado en el dataset para cada instantánea disponible.

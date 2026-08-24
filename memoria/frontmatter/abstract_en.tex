@@ -4,9 +4,9 @@ This project presents an Artificial Intelligence system capable of selecting dis
 
 Using a Transformer-based architecture, the model is trained through imitation learning on a dataset composed of real games collected from Tenhou.net. The model is evaluated in terms of predictive accuracy, and the implications of the obtained results are discussed.
 
-In addition to conventional accuracy metrics, a novel evaluation methodology, referred to as \textit{Strategic Accuracy}, is proposed. This metric is based on semantic categories derived from Mahjong strategy and provides a deeper understanding of the quality of the model's decisions.
+In addition to conventional accuracy metrics, this work proposes a complementary evaluation method referred to as \textit{Strategic Accuracy}. It uses categories defined through Shanten and Ukeire to analyse hand efficiency beyond exact agreement with the observed action.
 
-On a reserved evaluation set containing 52,563 game states, the model trained on 500,000 states achieves a top-1 accuracy of 65.64\%, a top-3 accuracy of 92.47\%, and a strategic accuracy of 94.01\%. Compared with the model trained on 100,000 states, increasing the training set improves all predictive metrics and reduces Shanten-degrading decisions from 5.03\% to 1.59\%. These results indicate that the model learns relevant discard-selection patterns, although the proposed strategic evaluation remains limited to the aspects represented by Shanten and Ukeire.
+On a reserved evaluation set containing 52,563 game states, the model trained on 500,000 states achieves a top-1 accuracy of 65.64\%, a top-3 accuracy of 92.47\%, and a strategic accuracy of 94.01\%. Compared with the checkpoint identified as 100k, the second model improves all predictive metrics and reduces Shanten-degrading decisions from 5.03\% to 1.59\%. These results indicate that the model learns relevant discard-selection patterns, although the proposed strategic evaluation remains limited to the aspects represented by Shanten and Ukeire.
 
 \vspace{0.5cm}
 
