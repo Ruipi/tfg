@@ -6,7 +6,7 @@ Using a Transformer-based architecture, the model is trained through imitation l
 
 In addition to conventional accuracy metrics, a novel evaluation methodology, referred to as \textit{Strategic Accuracy}, is proposed. This metric is based on semantic categories derived from Mahjong strategy and provides a deeper understanding of the quality of the model's decisions.
 
-The experimental results show that the model achieves a strategic accuracy of approximately 96\%, suggesting that it is capable of learning complex gameplay patterns and making informed decisions in situations characterized by imperfect information.
+On a reserved evaluation set containing 52,563 game states, the model trained on 500,000 states achieves a top-1 accuracy of 65.64\%, a top-3 accuracy of 92.47\%, and a strategic accuracy of 94.01\%. Compared with the model trained on 100,000 states, increasing the training set improves all predictive metrics and reduces Shanten-degrading decisions from 5.03\% to 1.59\%. These results indicate that the model learns relevant discard-selection patterns, although the proposed strategic evaluation remains limited to the aspects represented by Shanten and Ukeire.
 
 \vspace{0.5cm}
 

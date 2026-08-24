@@ -6,7 +6,7 @@ Para ello, se desarrolla un modelo basado en la arquitectura Transformer entrena
 
 Con el objetivo de complementar estas métricas tradicionales, se propone una nueva metodología de evaluación denominada \textit{Precisión Estratégica}, basada en categorías semánticas propias del juego. Este enfoque permite analizar la calidad de las decisiones generadas por el modelo desde una perspectiva más cercana al razonamiento estratégico empleado por jugadores expertos.
 
-Los resultados experimentales muestran que el modelo alcanza una precisión estratégica cercana al 96\%, lo que sugiere que es capaz de aprender patrones de juego complejos y generar decisiones coherentes en entornos caracterizados por información imperfecta.
+Los resultados experimentales muestran que el modelo entrenado con 500.000 estados alcanza una precisión exacta del 65,64\%, una precisión top-3 del 92,47\% y una precisión estratégica del 94,01\% sobre un conjunto reservado de 52.563 estados. En comparación con el modelo entrenado con 100.000 estados, el aumento del volumen de entrenamiento mejora todas las métricas predictivas y reduce las decisiones que empeoran el Shanten del 5,03\% al 1,59\%. Estos resultados indican que el modelo aprende regularidades relevantes para la selección de descartes, aunque la evaluación estratégica queda limitada a los aspectos representados mediante Shanten y Ukeire.
 
 \vspace{0.5cm}
 

@@ -4,9 +4,9 @@ En esta sección explicaremos como ha sido desarrollado el proyecto, empezando p
 
 \subsection{Análisis de Exploración de Datos}
 
-A partir del Dataset de Kaggle 4-players Riichi Mahjong Dataset se creó un notebook donde se explora todos los \textit{schemas} del dataset.
+El conjunto de datos utilizado procede de registros de partidas de Tenhou recopilados mediante la herramienta \textit{phoenix-logs} y transformados a una base de datos SQLite mediante \textit{tenhou\_dataprocess}. El dataset se distribuye a través de Kaggle con licencia Apache 2.0 y contiene ocho tablas asociadas a diferentes tipos de decisiones: \textit{Discard}, \textit{Riichi}, \textit{Chi}, \textit{Pon}, \textit{DaiMinKan}, \textit{ShouMinKan}, \textit{AnKan} y \textit{Skip}. Cada registro almacena un estado de juego serializado en formato JSON y comprimido mediante gzip.
 
-El dataset es compuesto por 7 \textit{schemas}:
+En este proyecto se utiliza exclusivamente la tabla \textit{Discard}. A partir de ella se construyó una base de datos filtrada que conserva únicamente los estados con más de una alternativa de descarte, obteniéndose un total de 552.563 estados.
 
 \begin{table}[H]
   \centering

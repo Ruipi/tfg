@@ -42,3 +42,9 @@
     Strategic accuracy.
     Error categorization.
     Visualization.
+
+11 - Independent holdout evaluation
+
+    Final comparison of the 100k and 500k checkpoints.
+    Independent evaluation on database offsets 500000-552562.
+    Exact, top-k and strategic metrics with reproducible CSV and figures.
