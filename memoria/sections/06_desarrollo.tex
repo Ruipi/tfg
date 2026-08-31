@@ -134,6 +134,8 @@ Esta es la representación de un estado de mahjong dentro del Dataset:
 }
 \end{lstlisting}
 
+La instantánea no se entrega directamente al Transformer. Primero se descomprime y normaliza, después se convierte en tokens y finalmente se tensorizan los seis identificadores utilizados por los embeddings. Este recorrido se representa en la Figura \ref{fig:model-architecture}; los campos que permanecen únicamente en la representación intermedia se detallan más adelante en la sección de tensorización.
+
 De este registro se obtiene la siguiente información:
 
 \begin{table}[H]

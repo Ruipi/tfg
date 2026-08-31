@@ -109,9 +109,30 @@ La confianza media de la acción seleccionada es del 62,83\% para el checkpoint 
 
 La confianza no debe interpretarse directamente como una probabilidad calibrada de que una decisión sea estratégicamente correcta. En este trabajo representa únicamente la probabilidad asignada por la cabeza de política a la acción seleccionada entre las alternativas disponibles.
 
+\clearpage
+\subsection{Coste computacional y eficiencia}
+
+Para estimar el coste de la propuesta se cronometró una ejecución completa del notebook de evaluación final sobre el equipo utilizado durante el proyecto, equipado con un procesador Intel Core Ultra 7 255HX y una GPU NVIDIA GeForce RTX 5060 Laptop. La inferencia se realizó mediante CUDA, con lotes de 64 estados y los dos checkpoints cargados de forma sucesiva. Los tiempos corresponden a una única ejecución y deben interpretarse como medidas orientativas dependientes del hardware y de la carga del sistema.
+
+\begin{table}[H]
+    \centering
+    \caption{Tiempo de cálculo de la evaluación sobre los 52.563 estados reservados}
+    \label{tab:computational_efficiency}
+    \begin{tabular}{@{}lrrr@{}}
+        \toprule
+        \textbf{Etapa} & \textbf{Unidades procesadas} & \textbf{Tiempo} & \textbf{Rendimiento} \\
+        \midrule
+        Inferencia de ambos checkpoints & 105.126 predicciones & 167 s & 629 predicciones/s \\
+        Shanten, Ukeire y categorización & 52.563 estados & 481 s & 109 estados/s \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Las dos etapas principales requieren conjuntamente unos 648 segundos, aproximadamente 10 minutos y 48 segundos. La evaluación estratégica concentra el 74,2\% de este tiempo, por lo que el principal coste de la evaluación final no procede de la inferencia del Transformer, sino del cálculo repetido de Shanten y Ukeire para los descartes posibles. El modelo contiene 867.073 parámetros entrenables y cada checkpoint ocupa aproximadamente 10,5 MB, lo que permite mantener reducido tanto el tamaño almacenado como el coste de inferencia. No se proporcionan tiempos totales del entrenamiento, ya que no fueron registrados de forma homogénea durante las ejecuciones originales.
+
 \subsection{Análisis comparativo}
 
-La evaluación sobre el conjunto reservado confirma que el incremento del volumen de entrenamiento de 100.000 a 500.000 estados mejora la capacidad de generalización del modelo. El segundo modelo obtiene una pérdida menor y mejores resultados top-1, top-3 y top-5. También alcanza una mayor precisión estratégica y reduce de forma considerable las decisiones que empeoran el Shanten.
+La evaluación sobre el conjunto reservado muestra que el checkpoint de 500k obtiene una pérdida menor y mejores resultados top-1, top-3 y top-5 que el checkpoint de 100k. También alcanza una mayor precisión estratégica y reduce de forma considerable las decisiones que empeoran el Shanten. Esta comparación es compatible con un efecto positivo del mayor volumen de datos, aunque la trazabilidad incompleta del entrenamiento de 100k impide atribuirle la diferencia de forma exclusivamente causal.
 
 La diferencia entre la precisión exacta y la estratégica muestra que una parte de las predicciones que no coinciden con el descarte observado conserva una eficiencia de mano equivalente o superior según las heurísticas consideradas. En el modelo de 100.000 estados, la precisión aumenta del 55,81\% al 88,97\% al aplicar este criterio. En el modelo de 500.000 estados, aumenta del 65,64\% al 94,01\%.
 
