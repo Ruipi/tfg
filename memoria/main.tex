@@ -57,6 +57,7 @@
 % Tables & Figures
 % ======================
 \usepackage{graphicx}       % \includegraphics
+\usepackage{pdfpages}       % insert signed PDF pages without modification
 \usepackage{float}          % [H] float placement
 \usepackage{booktabs}       % \toprule, \midrule, \bottomrule
 \usepackage{caption}        % better captions
@@ -117,6 +118,8 @@ Julia Ruiperez de Brito
 \begin{document}
 
 \input{frontmatter/cover}
+
+\includepdf[pages=-,pagecommand={}]{CreditosJulia.pdf}
 
 \clearpage
 
